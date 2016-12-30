@@ -113,9 +113,11 @@
 	    value: function render() {
 	      var game = {};
 	      var htmlText = '';
+	      var template = this.props.template || t[x];
 	      n = this.props.players || n;
+	      m = this.props.isChaos || m;
 
-	      if (m) game = _werewolfBrain2.default.getChaosGameFromTemplate(n, t[x]);else game = _werewolfBrain2.default.getGameFromTemplate(n, t[x]);
+	      if (m) game = _werewolfBrain2.default.getChaosGameFromTemplate(n, template);else game = _werewolfBrain2.default.getGameFromTemplate(n, template);
 
 	      game.deck = Object.keys(game.deck).map(function (card, index) {
 	        return game.deck[card] + " " + card;
@@ -148,6 +150,18 @@
 	        _react2.default.createElement(
 	          'p',
 	          null,
+	          'Template: ',
+	          template
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          'Chaos: ',
+	          m
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          null,
 	          'Players: ',
 	          game.players
 	        )
@@ -159,7 +173,7 @@
 	}(_react2.default.Component);
 
 	var app = document.getElementById('app');
-	_reactDom2.default.render(_react2.default.createElement(Main, { players: getParameterByName('players') }), app);
+	_reactDom2.default.render(_react2.default.createElement(Main, { players: getParameterByName('players'), template: getParameterByName('template'), isChaos: getParameterByName('isChaos') }), app);
 
 /***/ },
 /* 1 */

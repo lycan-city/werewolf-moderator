@@ -37,10 +37,12 @@ class Main extends React.Component {
   render() {
     let game = {};
     let htmlText = '';
+    let template = this.props.template || t[x];
     n = this.props.players || n;
+    m = this.props.isChaos || m;
 
-    if (m) game = werewolfBrain.getChaosGameFromTemplate(n, t[x]);
-    else game = werewolfBrain.getGameFromTemplate(n, t[x]);
+    if (m) game = werewolfBrain.getChaosGameFromTemplate(n, template);
+    else game = werewolfBrain.getGameFromTemplate(n, template);
 
     game.deck = Object.keys(game.deck).map(function (card, index) {
       return game.deck[card] + " " + card;
@@ -55,6 +57,8 @@ class Main extends React.Component {
         <h1>Werewolf Moderator</h1>
         <p>Deck: {htmlText}</p>
         <p>Weight: {game.weight}</p>
+        <p>Template: {template}</p>
+        <p>Chaos: {m}</p>
         <p>Players: {game.players}</p>
       </div>
     );
@@ -62,4 +66,4 @@ class Main extends React.Component {
 }
 
 const app = document.getElementById('app');
-ReactDOM.render(<Main players={getParameterByName('players')}/>, app);
+ReactDOM.render(<Main players={getParameterByName('players')} template={getParameterByName('template')} isChaos={getParameterByName('isChaos')}/>, app);
