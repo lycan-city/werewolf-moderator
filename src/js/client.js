@@ -8,6 +8,18 @@ function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function getParameterByName(name, url) {
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
 var n = getRandom(1, 50);
 var m = getRandom(0, 1);
 var x = getRandom(0, 4);
@@ -25,6 +37,7 @@ class Main extends React.Component {
   render() {
     let game = {};
     let htmlText = '';
+    n = this.props.players || n;
 
     if (m) game = werewolfBrain.getChaosGameFromTemplate(n, t[x]);
     else game = werewolfBrain.getGameFromTemplate(n, t[x]);
@@ -49,4 +62,4 @@ class Main extends React.Component {
 }
 
 const app = document.getElementById('app');
-ReactDOM.render(<Main />, app);
+ReactDOM.render(<Main players={getParameterByName('players')}/>, app);

@@ -74,6 +74,18 @@
 	  return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
 
+	function getParameterByName(name, url) {
+	  if (!url) {
+	    url = window.location.href;
+	  }
+	  name = name.replace(/[\[\]]/g, "\\$&");
+	  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+	      results = regex.exec(url);
+	  if (!results) return null;
+	  if (!results[2]) return '';
+	  return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+
 	var n = getRandom(1, 50);
 	var m = getRandom(0, 1);
 	var x = getRandom(0, 4);
@@ -101,6 +113,7 @@
 	    value: function render() {
 	      var game = {};
 	      var htmlText = '';
+	      n = this.props.players || n;
 
 	      if (m) game = _werewolfBrain2.default.getChaosGameFromTemplate(n, t[x]);else game = _werewolfBrain2.default.getGameFromTemplate(n, t[x]);
 
@@ -146,7 +159,7 @@
 	}(_react2.default.Component);
 
 	var app = document.getElementById('app');
-	_reactDom2.default.render(_react2.default.createElement(Main, null), app);
+	_reactDom2.default.render(_react2.default.createElement(Main, { players: getParameterByName('players') }), app);
 
 /***/ },
 /* 1 */
