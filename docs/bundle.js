@@ -468,8 +468,15 @@
 /* 4 */
 /***/ function(module, exports) {
 
+	/*
+	object-assign
+	(c) Sindre Sorhus
+	@license MIT
+	*/
+
 	'use strict';
 	/* eslint-disable no-unused-vars */
+	var getOwnPropertySymbols = Object.getOwnPropertySymbols;
 	var hasOwnProperty = Object.prototype.hasOwnProperty;
 	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
 
@@ -490,7 +497,7 @@
 			// Detect buggy property enumeration order in older V8 versions.
 
 			// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-			var test1 = new String('abc');  // eslint-disable-line
+			var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
 			test1[5] = 'de';
 			if (Object.getOwnPropertyNames(test1)[0] === '5') {
 				return false;
@@ -519,7 +526,7 @@
 			}
 
 			return true;
-		} catch (e) {
+		} catch (err) {
 			// We don't expect any of the above to throw, but better to be safe.
 			return false;
 		}
@@ -539,8 +546,8 @@
 				}
 			}
 
-			if (Object.getOwnPropertySymbols) {
-				symbols = Object.getOwnPropertySymbols(from);
+			if (getOwnPropertySymbols) {
+				symbols = getOwnPropertySymbols(from);
 				for (var i = 0; i < symbols.length; i++) {
 					if (propIsEnumerable.call(from, symbols[i])) {
 						to[symbols[i]] = from[symbols[i]];
@@ -820,17 +827,6 @@
 	  }
 	};
 
-	var fiveArgumentPooler = function (a1, a2, a3, a4, a5) {
-	  var Klass = this;
-	  if (Klass.instancePool.length) {
-	    var instance = Klass.instancePool.pop();
-	    Klass.call(instance, a1, a2, a3, a4, a5);
-	    return instance;
-	  } else {
-	    return new Klass(a1, a2, a3, a4, a5);
-	  }
-	};
-
 	var standardReleaser = function (instance) {
 	  var Klass = this;
 	  !(instance instanceof Klass) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Trying to release an instance into a pool of a different type.') : _prodInvariant('25') : void 0;
@@ -870,8 +866,7 @@
 	  oneArgumentPooler: oneArgumentPooler,
 	  twoArgumentPooler: twoArgumentPooler,
 	  threeArgumentPooler: threeArgumentPooler,
-	  fourArgumentPooler: fourArgumentPooler,
-	  fiveArgumentPooler: fiveArgumentPooler
+	  fourArgumentPooler: fourArgumentPooler
 	};
 
 	module.exports = PooledClass;
@@ -3211,7 +3206,14 @@
 	    // We warn in this case but don't throw. We expect the element creation to
 	    // succeed and there will likely be errors in render.
 	    if (!validType) {
-	      process.env.NODE_ENV !== 'production' ? warning(false, 'React.createElement: type should not be null, undefined, boolean, or ' + 'number. It should be a string (for DOM elements) or a ReactClass ' + '(for composite components).%s', getDeclarationErrorAddendum()) : void 0;
+	      if (typeof type !== 'function' && typeof type !== 'string') {
+	        var info = '';
+	        if (type === undefined || typeof type === 'object' && type !== null && Object.keys(type).length === 0) {
+	          info += ' You likely forgot to export your component from the file ' + 'it\'s defined in.';
+	        }
+	        info += getDeclarationErrorAddendum();
+	        process.env.NODE_ENV !== 'production' ? warning(false, 'React.createElement: type is invalid -- expected a string (for ' + 'built-in components) or a class/function (for composite ' + 'components) but got: %s.%s', type == null ? type : typeof type, info) : void 0;
+	      }
 	    }
 
 	    var element = ReactElement.createElement.apply(this, arguments);
@@ -4182,7 +4184,7 @@
 
 	'use strict';
 
-	module.exports = '15.4.1';
+	module.exports = '15.4.2';
 
 /***/ },
 /* 31 */
@@ -4381,6 +4383,13 @@
 	var internalInstanceKey = '__reactInternalInstance$' + Math.random().toString(36).slice(2);
 
 	/**
+	 * Check if a given node should be cached.
+	 */
+	function shouldPrecacheNode(node, nodeID) {
+	  return node.nodeType === 1 && node.getAttribute(ATTR_NAME) === String(nodeID) || node.nodeType === 8 && node.nodeValue === ' react-text: ' + nodeID + ' ' || node.nodeType === 8 && node.nodeValue === ' react-empty: ' + nodeID + ' ';
+	}
+
+	/**
 	 * Drill down (through composites and empty components) until we get a host or
 	 * host text component.
 	 *
@@ -4445,7 +4454,7 @@
 	    }
 	    // We assume the child nodes are in the same order as the child instances.
 	    for (; childNode !== null; childNode = childNode.nextSibling) {
-	      if (childNode.nodeType === 1 && childNode.getAttribute(ATTR_NAME) === String(childID) || childNode.nodeType === 8 && childNode.nodeValue === ' react-text: ' + childID + ' ' || childNode.nodeType === 8 && childNode.nodeValue === ' react-empty: ' + childID + ' ') {
+	      if (shouldPrecacheNode(childNode, childID)) {
 	        precacheNode(childInst, childNode);
 	        continue outer;
 	      }
@@ -6686,17 +6695,6 @@
 	  }
 	};
 
-	var fiveArgumentPooler = function (a1, a2, a3, a4, a5) {
-	  var Klass = this;
-	  if (Klass.instancePool.length) {
-	    var instance = Klass.instancePool.pop();
-	    Klass.call(instance, a1, a2, a3, a4, a5);
-	    return instance;
-	  } else {
-	    return new Klass(a1, a2, a3, a4, a5);
-	  }
-	};
-
 	var standardReleaser = function (instance) {
 	  var Klass = this;
 	  !(instance instanceof Klass) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Trying to release an instance into a pool of a different type.') : _prodInvariant('25') : void 0;
@@ -6736,8 +6734,7 @@
 	  oneArgumentPooler: oneArgumentPooler,
 	  twoArgumentPooler: twoArgumentPooler,
 	  threeArgumentPooler: threeArgumentPooler,
-	  fourArgumentPooler: fourArgumentPooler,
-	  fiveArgumentPooler: fiveArgumentPooler
+	  fourArgumentPooler: fourArgumentPooler
 	};
 
 	module.exports = PooledClass;
@@ -11555,12 +11552,18 @@
 	    } else {
 	      var contentToUse = CONTENT_TYPES[typeof props.children] ? props.children : null;
 	      var childrenToUse = contentToUse != null ? null : props.children;
+	      // TODO: Validate that text is allowed as a child of this node
 	      if (contentToUse != null) {
-	        // TODO: Validate that text is allowed as a child of this node
-	        if (process.env.NODE_ENV !== 'production') {
-	          setAndValidateContentChildDev.call(this, contentToUse);
+	        // Avoid setting textContent when the text is empty. In IE11 setting
+	        // textContent on a text area will cause the placeholder to not
+	        // show within the textarea until it has been focused and blurred again.
+	        // https://github.com/facebook/react/issues/6731#issuecomment-254874553
+	        if (contentToUse !== '') {
+	          if (process.env.NODE_ENV !== 'production') {
+	            setAndValidateContentChildDev.call(this, contentToUse);
+	          }
+	          DOMLazyTree.queueText(lazyTree, contentToUse);
 	        }
-	        DOMLazyTree.queueText(lazyTree, contentToUse);
 	      } else if (childrenToUse != null) {
 	        var mountImages = this.mountChildren(childrenToUse, transaction, context);
 	        for (var i = 0; i < mountImages.length; i++) {
@@ -13480,7 +13483,17 @@
 	      }
 	    } else {
 	      if (props.value == null && props.defaultValue != null) {
-	        node.defaultValue = '' + props.defaultValue;
+	        // In Chrome, assigning defaultValue to certain input types triggers input validation.
+	        // For number inputs, the display value loses trailing decimal points. For email inputs,
+	        // Chrome raises "The specified value <x> is not a valid email address".
+	        //
+	        // Here we check to see if the defaultValue has actually changed, avoiding these problems
+	        // when the user is inputting text
+	        //
+	        // https://github.com/facebook/react/issues/7253
+	        if (node.defaultValue !== '' + props.defaultValue) {
+	          node.defaultValue = '' + props.defaultValue;
+	        }
 	      }
 	      if (props.checked == null && props.defaultChecked != null) {
 	        node.defaultChecked = !!props.defaultChecked;
@@ -14227,9 +14240,15 @@
 	    // This is in postMount because we need access to the DOM node, which is not
 	    // available until after the component has mounted.
 	    var node = ReactDOMComponentTree.getNodeFromInstance(inst);
+	    var textContent = node.textContent;
 
-	    // Warning: node.value may be the empty string at this point (IE11) if placeholder is set.
-	    node.value = node.textContent; // Detach value from defaultValue
+	    // Only set node.value if textContent is equal to the expected
+	    // initial value. In IE10/IE11 there is a bug where the placeholder attribute
+	    // will populate textContent as well.
+	    // https://developer.microsoft.com/microsoft-edge/platform/issues/101525/
+	    if (textContent === inst._wrapperState.initialValue) {
+	      node.value = textContent;
+	    }
 	  }
 	};
 
@@ -15031,7 +15050,17 @@
 	    instance = ReactEmptyComponent.create(instantiateReactComponent);
 	  } else if (typeof node === 'object') {
 	    var element = node;
-	    !(element && (typeof element.type === 'function' || typeof element.type === 'string')) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s', element.type == null ? element.type : typeof element.type, getDeclarationErrorAddendum(element._owner)) : _prodInvariant('130', element.type == null ? element.type : typeof element.type, getDeclarationErrorAddendum(element._owner)) : void 0;
+	    var type = element.type;
+	    if (typeof type !== 'function' && typeof type !== 'string') {
+	      var info = '';
+	      if (process.env.NODE_ENV !== 'production') {
+	        if (type === undefined || typeof type === 'object' && type !== null && Object.keys(type).length === 0) {
+	          info += ' You likely forgot to export your component from the file ' + 'it\'s defined in.';
+	        }
+	      }
+	      info += getDeclarationErrorAddendum(element._owner);
+	       true ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s', type == null ? type : typeof type, info) : _prodInvariant('130', type == null ? type : typeof type, info) : void 0;
+	    }
 
 	    // Special case string values
 	    if (typeof element.type === 'string') {
@@ -15321,7 +15350,7 @@
 	      // Since plain JS classes are defined without any special initialization
 	      // logic, we can not catch common errors early. Therefore, we have to
 	      // catch them here, at initialization time, instead.
-	      process.env.NODE_ENV !== 'production' ? warning(!inst.getInitialState || inst.getInitialState.isReactClassApproved, 'getInitialState was defined on %s, a plain JavaScript class. ' + 'This is only supported for classes created using React.createClass. ' + 'Did you mean to define a state property instead?', this.getName() || 'a component') : void 0;
+	      process.env.NODE_ENV !== 'production' ? warning(!inst.getInitialState || inst.getInitialState.isReactClassApproved || inst.state, 'getInitialState was defined on %s, a plain JavaScript class. ' + 'This is only supported for classes created using React.createClass. ' + 'Did you mean to define a state property instead?', this.getName() || 'a component') : void 0;
 	      process.env.NODE_ENV !== 'production' ? warning(!inst.getDefaultProps || inst.getDefaultProps.isReactClassApproved, 'getDefaultProps was defined on %s, a plain JavaScript class. ' + 'This is only supported for classes created using React.createClass. ' + 'Use a static property to define defaultProps instead.', this.getName() || 'a component') : void 0;
 	      process.env.NODE_ENV !== 'production' ? warning(!inst.propTypes, 'propTypes was defined as an instance property on %s. Use a static ' + 'property to define propTypes instead.', this.getName() || 'a component') : void 0;
 	      process.env.NODE_ENV !== 'production' ? warning(!inst.contextTypes, 'contextTypes was defined as an instance property on %s. Use a ' + 'static property to define contextTypes instead.', this.getName() || 'a component') : void 0;
@@ -16325,14 +16354,11 @@
 
 	'use strict';
 
-	var _prodInvariant = __webpack_require__(35),
-	    _assign = __webpack_require__(4);
+	var _prodInvariant = __webpack_require__(35);
 
 	var invariant = __webpack_require__(8);
 
 	var genericComponentClass = null;
-	// This registry keeps track of wrapper classes around host tags.
-	var tagToComponentClass = {};
 	var textComponentClass = null;
 
 	var ReactHostComponentInjection = {
@@ -16345,11 +16371,6 @@
 	  // rendered as props.
 	  injectTextComponentClass: function (componentClass) {
 	    textComponentClass = componentClass;
-	  },
-	  // This accepts a keyed object with classes as values. Each key represents a
-	  // tag. That particular tag will use this class instead of the generic one.
-	  injectComponentClasses: function (componentClasses) {
-	    _assign(tagToComponentClass, componentClasses);
 	  }
 	};
 
@@ -21204,7 +21225,7 @@
 
 	'use strict';
 
-	module.exports = '15.4.1';
+	module.exports = '15.4.2';
 
 /***/ },
 /* 172 */
@@ -21593,36 +21614,41 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var cards = __webpack_require__(179);
-	var templates = __webpack_require__(180);
+	var moderator = __webpack_require__(181);
+
 	const BALANCEDFLEX = 1;
 	const CHAOSFLEX = 10;
-	var availableCards = {};
-	var game = {
+
+	let availableCards = {};
+
+	let game = {
 	    deck : {},
 	    weight : 100,
 	    players: 0
 	};
-	var gameCandite = {
+
+	let gameCandite = {
 	    deck : {},
 	    weight : 100,
 	    players: 0
 	};
-	var allPlayers = true;
+
+	let allPlayers = true;
 
 	exports.getAllCards = function () {
-	    return cards.all;
+	    return cards.getAll();
 	}
 
-	exports.getAllTemplates = function () {
-	    return templates.all;
-	}
+	exports.getAllTemplates = cards.getAllTemplates;
+
+	exports.getScriptFromDeck = moderator.getScriptFromDeck;
 
 	exports.getBalancedGame = function (players, chosenCards) {
 	    return _getBalancedGame(players, chosenCards);
 	}
 
 	exports.getGameFromTemplate = function (players, template) {
-	    return _getBalancedGame(players, _getCardsFromTemplate(template));
+	    return _getBalancedGame(players, cards.fromTemplate(template));
 	}
 
 	exports.getChaosGame = function (players, chosenCards) {
@@ -21630,15 +21656,15 @@
 	}
 
 	exports.getChaosGameFromTemplate = function (players, template){
-	    return _getChaosGame(players, _getCardsFromTemplate(template));
+	    return _getChaosGame(players, cards.fromTemplate(template));
 	}
 
-	function _getChaosGame(players, chosenCards) {
-	    return _getGame(players, _classifyCards(chosenCards || cards.all), CHAOSFLEX);
+	function _getChaosGame(players, chosenCards = cards.getAll()) {
+	    return _getGame(players, _classifyCards(chosenCards), CHAOSFLEX);
 	}
 
-	function _getBalancedGame(players, chosenCards) {
-	    return _getGame(players, _classifyCards(chosenCards || cards.all), BALANCEDFLEX);
+	function _getBalancedGame(players, chosenCards = cards.getAll()) {
+	    return _getGame(players, _classifyCards(chosenCards), BALANCEDFLEX);
 	}
 
 	function _getGame(players, chosenCards, flex){
@@ -21655,7 +21681,7 @@
 
 	function _classifyCards(cards) {
 	    var deck = { negatives: [], nonnegatives: [] };
-	    cards.map(function (card) {
+	    cards.forEach(function (card) {
 	        if (card.value < 0)
 	            for (var i = 0; i < card.amount; i++)
 	                deck.negatives.push({ role: card.role, value: card.value, amount: 1 });
@@ -21717,13 +21743,6 @@
 	    }
 	}
 
-	function _getCardsFromTemplate(template) {
-	    templateCards = templates.all[template.toLowerCase()];
-	    return cards.all.filter(function (card) {
-	        return templateCards.indexOf(card.role) >= 0;
-	    });
-	}
-
 	function _addRandomCard(selectedCard) {
 	    game.weight += selectedCard.value;
 	    game.players++;
@@ -21739,69 +21758,91 @@
 
 /***/ },
 /* 179 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	exports.all = [
-	    { role: 'Wolf Man', value: -9, amount: 1 },
+	var templates = __webpack_require__(180);
+
+	exports.getAll = () => cards;
+
+	exports.getAllTemplates = templates.getAll;
+
+	exports.fromTemplate = (template) => {
+	    const templateCards = templates.get(template);
+	    return cards.filter(c => ~templateCards.indexOf(c.role));
+	}
+
+	const cards  = [
+	    { role: 'Apprentice Seer', value: 4, amount: 1 },
+	    { role: 'Aura Seer', value: 3, amount: 1 },
+	    { role: 'Beholder', value: 2, amount: 1 },
 	    { role: 'Big Bad Wolf', value: -9, amount: 1 },
-	    { role: 'Wolf Cub', value: -8, amount: 1 },
-	    { role: 'Vampire', value: -7, amount: 8 },
-	    { role: 'Bogeyman', value: -6, amount: 1 },
-	    { role: 'Minion', value: -6, amount: 1 },
-	    { role: 'Werewolf', value: -6, amount: 12 },
-	    { role: 'Dream Wolf', value: -5, amount: 1 },
-	    { role: 'Lone Wolf', value: -4, amount: 1 },
-	    { role: 'Fruit Brute', value: -3, amount: 1 },
-	    { role: 'Sorcerer', value: -3, amount: 1 },
-	    { role: 'Cursed', value: -3, amount: 1 },
-	    { role: 'Count Dracula', value: -2, amount: 1 },
-	    { role: 'Cupid', value: -2, amount: 1 },
-	    { role: 'Doppelgänger', value: -2, amount: 1 },
-	    { role: 'Sasquatch', value: -2, amount: 1 },
-	    { role: 'Lycan', value: -1, amount: 1 },
-	    { role: 'Pacifist', value: -1, amount: 1 },
-	    { role: 'Old Man', value: 0, amount: 1 },
-	    { role: 'Hoodlum', value: 0, amount: 1 },
-	    { role: 'Little Girl', value: 0, amount: 1 },
-	    { role: 'Wild Child', value: 0, amount: 1 },
-	    { role: 'Moderator', value: 0, amount: 1 },
-	    { role: 'Villager', value: 1, amount: 20 },
-	    { role: 'Old Hag', value: 1, amount: 1 },
-	    { role: 'Cult Leader', value: 1, amount: 1 },
-	    { role: 'Spellcaster', value: 1, amount: 1 },
-	    { role: 'Tanner', value: 1, amount: 1 },
 	    { role: 'Bloody Mary', value: 1, amount: 1 },
-	    { role: 'Nostradamus', value: 1, amount: 1 },
-	    { role: 'Beeholder', value: 2, amount: 1 },
-	    { role: 'Ghost', value: 2, amount: 1 },
-	    { role: 'Village Idiot', value: 2, amount: 1 },
-	    { role: 'Mason', value: 2, amount: 3 },
-	    { role: 'Mayor', value: 2, amount: 1 },
-	    { role: 'Troublemaker', value: 2, amount: 1 },
 	    { role: 'Bodyguard', value: 3, amount: 1 },
+	    { role: 'Bogeyman', value: -6, amount: 1 },
+	    { role: 'Chupacabra', value: 4, amount: 1 },
+	    { role: 'Count Dracula', value: -2, amount: 1 },
+	    { role: 'Cult Leader', value: 1, amount: 1 },
+	    { role: 'Cupid', value: -2, amount: 1 },
+	    { role: 'Cursed', value: -3, amount: 1 },
+	    { role: 'Dire Wolf', value: -4, amount: 1 },
 	    { role: 'Diseased', value: 3, amount: 1 },
+	    { role: 'Doppelgänger', value: -2, amount: 1 },
+	    { role: 'Dream Wolf', value: -5, amount: 1 },
+	    { role: 'Drunk', value: 3, amount: 1 },
+	    { role: 'Fortune Teller', value: 0, amount: 1 },
+	    { role: 'Fruit Brute', value: -3, amount: 1 },
+	    { role: 'Ghost', value: 2, amount: 1 },
+	    { role: 'Hoodlum', value: 0, amount: 1 },
 	    { role: 'Hunter', value: 3, amount: 1 },
 	    { role: 'Insomniac', value: 3, amount: 1 },
+	    { role: 'Leprechaun', value: 5, amount: 1 },
+	    { role: 'Little Girl', value: 0, amount: 1 },
+	    { role: 'Lone Wolf', value: -4, amount: 1 },
+	    { role: 'Lycan', value: -1, amount: 1 },
+	    { role: 'Mayor', value: 2, amount: 1 },
+	    { role: 'Mason', value: 2, amount: 3 },
 	    { role: 'Martyr', value: 3, amount: 1 },
+	    { role: 'Minion', value: -6, amount: 1 },
+	    { role: 'Moderator', value: 0, amount: 1 },
+	    { role: 'Nostradamus', value: 1, amount: 1 },
+	    { role: 'Old Hag', value: 1, amount: 1 },
+	    { role: 'Old Man', value: 0, amount: 1 },
+	    { role: 'Pacifist', value: -1, amount: 1 },
 	    { role: 'P.I.', value: 3, amount: 1 },
 	    { role: 'Priest', value: 3, amount: 1 },
 	    { role: 'Prince', value: 3, amount: 1 },
-	    { role: 'Tough Guy', value: 3, amount: 1 },
-	    { role: 'Thing', value: 3, amount: 1 },
-	    { role: 'Drunk', value: 3, amount: 1 },
-	    { role: 'Apprentice Seer', value: 4, amount: 1 },
-	    { role: 'Witch', value: 4, amount: 1 },
-	    { role: 'Chupacabra', value: 4, amount: 1 },
+	    { role: 'Sasquatch', value: -2, amount: 1 },
+	    { role: 'Seer', value: 7, amount: 1 },
+	    { role: 'Sorcerer', value: -3, amount: 1 },
+	    { role: 'Spellcaster', value: 1, amount: 1 },
+	    { role: 'Tanner', value: 1, amount: 1 },
 	    { role: 'The Count', value: 5, amount: 1 },
-	    { role: 'Leprechaun', value: 5, amount: 1 },
-	    { role: 'Seer', value: 7, amount: 1 }
+	    { role: 'Thing', value: 3, amount: 1 },
+	    { role: 'Tough Guy', value: 3, amount: 1 },
+	    { role: 'Troublemaker', value: 2, amount: 1 },
+	    { role: 'Vampire', value: -7, amount: 8 },
+	    { role: 'Village Idiot', value: 2, amount: 1 },
+	    { role: 'Villager', value: 1, amount: 20 },
+	    { role: 'Virginia Woolf', value: -2, amount: 1 },
+	    { role: 'Werewolf', value: -6, amount: 12 },
+	    { role: 'Wild Child', value: 0, amount: 1 },
+	    { role: 'Witch', value: 4, amount: 1 },
+	    { role: 'Wolf Cub', value: -8, amount: 1 },
+	    { role: 'Wolf Man', value: -9, amount: 1 },
+	    { role: 'Wolverine', value: -4, amount: 1 }
 	];
 
 /***/ },
 /* 180 */
 /***/ function(module, exports) {
 
-	exports.all = {
+	exports.getAll = () => templates;
+
+	exports.get = (template) => {
+	    return templates[template.toLowerCase()];
+	};
+
+	const templates = {
 	    basic: [
 	        'Werewolf',
 	        'Villager',
@@ -21828,7 +21869,9 @@
 	        'Wolf Cub',
 	        'Lone Wolf',
 	        'Fruit Brute',
-	        'Dream Wolf',
+	        'Dire Wolf',
+	        'Virginia Woolf',
+	        'Wolverine',
 	        'Villager',
 	        'Seer',
 	        'Prince',
@@ -21845,6 +21888,8 @@
 	        'Villager',
 	        'Mayor',
 	        'Seer',
+	        'Dire Wolf',
+	        'Virginia Woolf',
 	        'Witch',
 	        'Prince',
 	        'Cult Leader',
@@ -21858,8 +21903,338 @@
 	        'Bodyguard',
 	        'Apprentice Seer',
 	        'Drunk'
+	    ],
+	    vampires: [
+	        'Vampire',
+	        'Sorcerer',
+	        'Cursed',
+	        'Villager',
+	        'Mayor',
+	        'Prince',
+	        'Tanner',
+	        'Spellcaster',
+	        'Mason',
+	        'Seer',
+	        'Dire Wolf',
+	        'Virginia Woolf',
+	        'Witch',
+	        'Werewolf',
+	        'Wolf Cub',
+	        'Drunk'
 	    ]
 	}
+
+/***/ },
+/* 181 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var lang = __webpack_require__(182);
+	var bindings = __webpack_require__(183);
+	var sequence = __webpack_require__(184);
+
+	exports.getScriptFromDeck = function (deck, selectedLanguage) {
+	    var script = '';
+	    var calls = new Set();
+	    var language = lang.english;
+	    if (selectedLanguage.toLowerCase() == 'spanish') language = lang.spanish;
+	    Object.keys(deck).forEach(function(role) {
+	        if(bindings[role]) bindings[role].forEach(function (call) {
+	            calls.add(call);
+	        });
+	    });
+	    sequence.forEach(function (call){
+	        if(calls.has(call)){
+	            script += '- ' + language[call] + '\n';
+	        }
+	    });
+	    return script;
+	}
+
+/***/ },
+/* 182 */
+/***/ function(module, exports) {
+
+	exports.english = {
+	    'Apprentice Seer': '*Apprentice Seer, open your eyes.',    
+	    'Aura Seer': 'Aura Seer open your eyes, check a player.',
+	    'Beholder': 'Beholder open your eyes, (point the player) this is the village seer.',
+	    'Big Bad Wolf': '*Big Bad Wolf, open your eyes.',
+	    'Bloody Mary': '(When she is already dead), choose a player to kill.',
+	    'Bodyguard': 'Wake up Bodyguard, choose a player to protect.',
+	    'Bogeyman': '(If wolves didn\'t kill) Bogeyman wake up, choose a player to kill.',
+	    'Chupacabra': 'Chupacabra wake up, choose a player.',
+	    'Count Dracula': 'Dracula, open your eyes and pick a wife.',
+	    'Cult Leader': 'Cultists, open your eyes, who\'s gonna be converted tonight?',
+	    'Cupid': '*Wake up Cupid, choose the lovebirds.',
+	    'Cursed': '*Cursed, open your eyes',
+	    'Dire Wolf': '*Wake up Dire Wolf, choose your companion.',
+	    'Diseased': '*Diseased, open your eyes.',
+	    'Doppelgänger': '*Doppelgänger, open your eyes, choose your role model.',
+	    'Drunk': '(Third night), open your eyes, give him his new role.',
+	    'Fortune Teller': 'Fortune Teller, check a player.',
+	    'Fruit Brute': '*Fruit Brute, open your eyes.',
+	    'Hoodlum': '*Wake up Hoodlum, choose 2 players.',
+	    'Hunter': '*Hunter, open your eyes.',
+	    'Insomniac': 'Insomniac, there have been activity around you (tell with hands).',
+	    'Leprechaun': 'Leprechaun open your eyes, (point the player) this player have been killed, will you redirect the attack?',
+	    'Lovebirds': '*Lovebirds meet each other.',
+	    'Lycan': '*Lycan, open your eyes.',
+	    'Mason': '*Masons, open your eyes and look for other Masons.',
+	    'Meeting': 'Masons, open your eyes it\'s meeting time.',
+	    'Minion': '*Minion, you are part of the (moderator choose vampires or werewolves) team.',
+	    'Nostradamus': '*Nostradamus, open your eyes, predict the winning team.',
+	    'Old Hag': 'Old Hag open your eyes, who must leave the village next day?',
+	    'P.I.': 'Private Investigator wake up, inspect a player and his neighbors.',
+	    'Priest': 'Priest, for whom do you pray?',
+	    'Seer': 'Wake up Seer, check a player.',
+	    'Sorcerer': '(Until found a werewolf, after that join wolves and ask before they choose) wake up sorcerer, point at a player.',
+	    'Spellcaster': 'Spellcaster, who must not use their voice the following day?',
+	    'The Count': '*The Count, there is (show with hands) wolves in this side of the village and (show with hands) in the other side.',
+	    'Thing': 'Thing, tap a player next to you.',
+	    'Tough Guy': '*Tough Guy, wake up.',
+	    'Vampire': 'Vampires, *(open your eyes and look for other vampires.), choose a player to kill.',
+	    'Werewolves': 'Werewolves, *(open your eyes and look for other werewolves.), choose a player to kill.',
+	    'Wild Child': '*Wild Child, choose your role model.',
+	    'Witch': 'Witch open your eyes, (point the player) this player have been killed, do you want to revive him? (one per game), do you want to kill someone else? (one per game).',
+	    'Wolf Man': '*Wolf Man wake up.',
+	    'Wolverine': '*Wolverine, open your eyes.'
+	}
+
+	exports.spanish = {
+	    'Apprentice Seer': '*Aprendiz Vidente (Apprentice Seer), abre tus ojos.',    
+	    'Aura Seer': 'Vidente Aura (Aura Seer) levántate, verifica un jugador.',
+	    'Beholder': 'Espectador (Beholder) abre tus ojos, (señala al jugadr) este es el Vidente de la aldea.',
+	    'Big Bad Wolf': '*Lobo Feroz (Big Bad Wolf), abre tus ojos.',
+	    'Bloody Mary': '(Cuando ya está muerta), seleciona a quien matarás.',
+	    'Bodyguard': 'levántate Escolta (Bodyguard), elige a quien vas a resguardar.',
+	    'Bogeyman': '(Si los lobos no mataron!) Se levanta El Cuco (Bogeyman), elige a quien matar.',
+	    'Chupacabra': 'Se levanta el Chupacabra, selecciona un jugador.',
+	    'Count Dracula': 'Dracula, abre tus ojos y escoge a tu esposa.',
+	    'Cult Leader': 'Cultistas (Cultists), abran sus ojos, a quién van a incluir al culto?',
+	    'Cupid': '*Se levanta Cupido (Cupid), elige a los enamorados.',
+	    'Cursed': '*Maldito (Cursed), abre tus ojos.',
+	    'Dire Wolf': '*Se levanta el Lobo Gigante (Dire Wolf), selecciona su compañía.',
+	    'Diseased': '*Enfermo (Diseased), abre tus ojos.',
+	    'Doppelgänger': '*Doppelgänger, abre tus ojos, selecciona tu modelo a seguir.',
+	    'Drunk': '(Tercera noche), Borracho (Drunk) abre tus ojos, recibe tu nuevo rol.',
+	    'Fortune Teller': 'Adivino (Fortune Teller), verifica un jugador.',
+	    'Fruit Brute': '*Fruit Brute, abre tus ojos.',
+	    'Hoodlum': '*Despierta Matón (Hoodlum), elige a 2 jugadores.',
+	    'Hunter': '*Cazador (Hunter), abre tus ojos.',
+	    'Insomniac': 'Insomne (Insomniac), ha habido actividad a tu alrededor (indicarlo con las manos).',
+	    'Leprechaun': 'Duende (Leprechaun) abre tus ojos, (apunta al jugador) ha sido asesinado, vas a reorientar su muerte?',
+	    'Lovebirds': '*enamorados, hora de conocerse.',
+	    'Lycan': '*Licántropo (Lycan), abre tus ojos.',
+	    'Mason': '*Masones (Masons), abran sus ojos y conozcan los otros masones.',
+	    'Meeting': 'Masones, es hora de su reunión.',
+	    'Minion': '*Lacayo (Minion), servirás a los (el moderador elige vampiros o lobos).',
+	    'Nostradamus': '*Nostradamus, derpierta, predice el equipo ganador.',
+	    'Old Hag': 'Vieja Arpía (Old Hag) despierta, quién no será parte de la villa durante el día?',
+	    'P.I.': 'Despierta Investigador Privado (P.I.), inspecciona un jugador y sus vecinos.',
+	    'Priest': 'Cura, por quién rezarás?',
+	    'Seer': 'Se levante el Vidente (Seer), verifica un jugador.',
+	    'Sorcerer': '(Hasta que encuentre un lobo, luego se une a la manada y consutla antes de que los lobos seleccionen) Despierta Hechicra (Sorcerer), apunta a un jugador.',
+	    'Spellcaster': 'Conjurador (Spellcaster), quién no podrá usar su voz durante el día?',
+	    'The Count': '*Contador (The Count), la aldea ha sido invadida por (indicar la cantidad con las manos) lobos en esta parte y (indicar con las manos) en esta otra.',
+	    'Thing': 'Mañoso (Thing), toca un jugador a tu alrededor.',
+	    'Tough Guy': '*Tipo Rudo (Tough Guy), abre tus ojos.',
+	    'Vampire': 'Vampiros (Vampires), *(abran sus ojos y miren los demás vampiros.), seleccionen a quien matar.',
+	    'Werewolves': 'Lobos, *(abran sus ojos y miren los demás lobos.), seleccionen a quien matar.',
+	    'Wild Child': '*Chico Salvaje (Wild Child), selecciona tu rol a seguir.',
+	    'Witch': 'Bruja (Witch) despierta, (señala el jugador) este jugador ha muerto, lo revives? (uno por juego), matarás a alguien? (uno por juego).',
+	    'Wolf Man': '*Hombre lobo (Wolf Man) despierta.',
+	    'Wolverine': '*Guepardo (Wolverine), despierta.'
+	}
+
+/***/ },
+/* 183 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"Apprentice Seer": [
+			"Apprentice Seer"
+		],
+		"Aura Seer": [
+			"Aura Seer"
+		],
+		"Beholder": [
+			"Beholder"
+		],
+		"Big Bad Wolf": [
+			"Big Bad Wolf",
+			"Werewolves"
+		],
+		"Bloody Mary": [
+			"Bloody Mary"
+		],
+		"Bodyguard": [
+			"Bodyguard"
+		],
+		"Bogeyman": [
+			"Bogeyman"
+		],
+		"Chupacabra": [
+			"Chupacabra"
+		],
+		"Count Dracula": [
+			"Count Dracula"
+		],
+		"Cult Leader": [
+			"Cult Leader"
+		],
+		"Cupid": [
+			"Cupid",
+			"Lovebirds"
+		],
+		"Cursed": [
+			"Cursed"
+		],
+		"Dire Wolf": [
+			"Dire Wolf",
+			"Werewolves"
+		],
+		"Diseased": [
+			"Diseased"
+		],
+		"Doppelgänger": [
+			"Doppelgänger"
+		],
+		"Dream Wolf": [
+			"Werewolves"
+		],
+		"Drunk": [
+			"Drunk"
+		],
+		"Fortune Teller": [
+			"Fortune Teller"
+		],
+		"Fruit Brute": [
+			"Fruit Brute",
+			"Werewolves"
+		],
+		"Hoodlum": [
+			"Hoodlum"
+		],
+		"Hunter": [
+			"Hunter"
+		],
+		"Insomniac": [
+			"Insomniac"
+		],
+		"Leprechaun": [
+			"Leprechaun"
+		],
+		"Lone Wolf": [
+			"Werewolves"
+		],
+		"Lycan": [
+			"Lycan"
+		],
+		"Mason": [
+			"Mason",
+			"Meeting"
+		],
+		"Minion": [
+			"Minion"
+		],
+		"Nostradamus": [
+			"Nostradamus"
+		],
+		"Old Hag": [
+			"Old Hag"
+		],
+		"P.I.": [
+			"P.I."
+		],
+		"Priest": [
+			"Priest"
+		],
+		"Seer": [
+			"Seer"
+		],
+		"Sorcerer": [
+			"Sorcerer"
+		],
+		"Spellcaster": [
+			"Spellcaster"
+		],
+		"The Count": [
+			"The Count"
+		],
+		"Tough Guy": [
+			"Tough Guy"
+		],
+		"Vampire": [
+			"Vampire"
+		],
+		"Werewolf": [
+			"Werewolves"
+		],
+		"Wild Child": [
+			"Wild Child"
+		],
+		"Witch": [
+			"Witch"
+		],
+		"Wolf Cub": [
+			"Werewolves"
+		],
+		"Wolf Man": [
+			"Wolf Man",
+			"Werewolves"
+		],
+		"Wolverine": [
+			"Wolverine",
+			"Werewolves"
+		]
+	};
+
+/***/ },
+/* 184 */
+/***/ function(module, exports) {
+
+	module.exports = [
+		"Lycan",
+		"Tough Guy",
+		"Cursed",
+		"Hunter",
+		"Fruit Brute",
+		"Apprentice Seer",
+		"Diseased",
+		"Big Bad Wolf",
+		"Wolf Man",
+		"Minion",
+		"Cupid",
+		"Lovebirds",
+		"Doppelgänger",
+		"Hoodlum",
+		"Wild Child",
+		"Dire Wolf",
+		"Nostradamus",
+		"Mason",
+		"Bodyguard",
+		"Priest",
+		"Count Dracula",
+		"Cult Leader",
+		"Sorcerer",
+		"Vampire",
+		"Werewolves",
+		"Bogeyman",
+		"Leprechaun",
+		"Bloody Mary",
+		"Chupacabra",
+		"Witch",
+		"Aura Seer",
+		"Seer",
+		"Fortune Teller",
+		"Beholder",
+		"The Count",
+		"Insomniac",
+		"P.I.",
+		"Old Hag",
+		"Spellcaster",
+		"Meeting"
+	];
 
 /***/ }
 /******/ ]);
