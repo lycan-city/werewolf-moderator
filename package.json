@@ -1,6 +1,6 @@
 {
   "name": "werewolf-moderator",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "App to moderate werewolf game.",
   "main": "webpack.config.js",
   "scripts": {
