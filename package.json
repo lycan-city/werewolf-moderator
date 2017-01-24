@@ -1,7 +1,7 @@
 {
   "name": "werewolf-moderator",
   "version": "1.0.0",
-  "description": "App for moderate werewolf game.",
+  "description": "App to moderate werewolf game.",
   "main": "webpack.config.js",
   "scripts": {
     "start": "webpack --watch | webpack-dev-server --content-base docs"
@@ -11,7 +11,8 @@
     "vetom <tomasverasm@gmail.com>"
   ],
   "keywords": [
-    "werewolf"
+    "werewolf",
+    "moderator"
   ],
   "repository": "https://github.com/wistcc/werewolf-brain",
   "license": "ISC",
