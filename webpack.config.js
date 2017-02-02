@@ -1,6 +1,7 @@
-var path = require('path');
-var srcPath = path.join(__dirname, 'src');
-var buildPath = path.join(__dirname, 'docs');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
+const srcPath = path.join(__dirname, 'src');
+const buildPath = path.join(__dirname, 'docs');
 
 module.exports = {
   context: srcPath,
@@ -21,5 +22,11 @@ module.exports = {
           },
           { test: /\.json$/, loader: "json" }
       ]
-  }
+  },
+  plugins:[
+     new CopyWebpackPlugin([
+       {from: 'index.html'},
+       {from: 'html/vendors', to: 'vendors'},
+     ])
+  ]
 };
