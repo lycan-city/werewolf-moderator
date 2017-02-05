@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, browserHistory } from 'react-router';
 
 export default class Game extends React.Component {
   render() {
@@ -59,8 +60,8 @@ export default class Game extends React.Component {
 				</div>
 			</div>
 			<div class="panel-footer">
-				<button type="button" id="startBalanced" class="btn btn-success pull-right col-md-6 col-xs-12"><i class="fa fa-book" aria-hidden="true"></i> Screenplay</button>
-				<button type="button" id="backBtn" class="btn btn-default pull-left col-md-4 col-xs-12"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+				<Link to="screenplay" className="btn btn-success pull-right col-md-6 col-xs-12"><i class="fa fa-book" aria-hidden="true"></i> Screenplay</Link>
+				<button onClick={browserHistory.goBack} class="btn btn-default pull-left col-md-4 col-xs-12"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
 				<div class="clearfix"></div>
 			</div>
 		</div>

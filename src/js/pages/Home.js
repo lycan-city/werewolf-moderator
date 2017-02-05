@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 export default class Home extends React.Component {
   render() {
@@ -34,12 +35,12 @@ export default class Home extends React.Component {
         </div>
         <div class="panel-footer">
           <div class="col-md-12">
-            <button id="next" name="next" class="btn btn-success btn-block">Next  <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+            <Link to="cards" className="btn btn-success btn-block">Next  <i class="fa fa-arrow-right" aria-hidden="true"></i></Link>
           </div>
           <hr />
           <div class="col-md-12">
-            <button id="quickChaos" name="next" class="btn btn-default col-md-4 pull-left"><i class="fa fa-arrows" aria-hidden="true"></i> Quick Chaos</button>
-            <button id="quickBalanced" name="next" class="btn btn-default col-md-4 pull-right"><i class="fa fa-balance-scale" aria-hidden="true"></i> Quick Balanced</button>
+            <Link to={{pathname:"game", query:{type: "chaos"} }} className="btn btn-default col-md-4 pull-left"><i class="fa fa-arrows" aria-hidden="true"></i> Quick Chaos</Link>
+            <Link to={{pathname:"game", query:{type: "balanced"} }} className="btn btn-default col-md-4 pull-right"><i class="fa fa-balance-scale" aria-hidden="true"></i> Quick Balanced</Link>
           </div>
           <div class="clearfix"></div>
         </div>
