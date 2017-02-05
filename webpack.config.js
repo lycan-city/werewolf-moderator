@@ -20,7 +20,8 @@ module.exports = {
               presets: ['react', 'es2015']
             }
           },
-          { test: /\.json$/, loader: "json" }
+          { test: /\.json$/, loader: "json" },
+          { test: /\.css$/, loader: "css" }
       ]
   },
   plugins:[
