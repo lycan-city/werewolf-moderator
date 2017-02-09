@@ -1,14 +1,13 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
 
+import Header from '../components/Header';
+
 export default class Cards extends React.Component {
   render() {
     return (
       <div>
-        <div class="text-center">
-          <h1>Cards</h1>
-        </div>
-        <hr />
+        <Header name="Cards" />
         <div class="col-md-4 col-md-offset-4">
           <div class="panel panel-default">
             <div class="panel-body">
