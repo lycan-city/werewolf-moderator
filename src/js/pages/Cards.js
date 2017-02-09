@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/main.css';
+import { Link, browserHistory } from 'react-router';
 
 export default class Cards extends React.Component {
   render() {
@@ -88,9 +88,9 @@ export default class Cards extends React.Component {
               </form>
             </div>
             <div class="panel-footer">
-              <button type="button" id="startBalancedBtn" class="btn btn-success pull-right col-md-4 col-xs-12 btn-space"><i class="fa fa-balance-scale" aria-hidden="true"></i> Start Balanced </button>
-              <button type="button" id="startChaosBtn" class="btn btn-danger pull-right col-md-4 col-xs-12 btn-space"><i class="fa fa-arrows" aria-hidden="true"></i> Start Chaos </button>
-              <button type="button" id="backBtn" class="btn btn-default pull-left col-md-2 col-xs-12 btn-space"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+              <Link to={{pathname:"game", query:{type: "balanced"} }} className="btn btn-success pull-right col-md-4 col-xs-12 btn-space"><i class="fa fa-balance-scale" aria-hidden="true"></i> Start Balanced </Link>
+              <Link to={{pathname:"game", query:{type: "chaos"} }} className="btn btn-danger pull-right col-md-4 col-xs-12 btn-space"><i class="fa fa-arrows" aria-hidden="true"></i> Start Chaos </Link>
+              <button onClick={browserHistory.goBack} className="btn btn-default pull-left col-md-2 col-xs-12 btn-space"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
               <div class="clearfix"></div>
             </div>
           </div>
