@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
 
-import '../../css/main.css';
-
 export default class Cards extends React.Component {
   render() {
     return (

@@ -7,6 +7,7 @@ import Game from './pages/Game';
 import Cards from './pages/Cards';
 import Screenplay from './pages/Screenplay';
 
+import '../css/main.css';
 
 const app = document.getElementById('app');
 
