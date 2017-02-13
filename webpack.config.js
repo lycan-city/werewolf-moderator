@@ -8,8 +8,10 @@ module.exports = {
   entry: path.join(srcPath, 'js', 'client.js'),
   output: {
       path: buildPath,
-      filename: "bundle.js"
+      filename: "bundle.js",
+      sourceMapFilename: "bundle.map.js"
   },
+  devtool: "source-map",
   module: {
       loaders: [
           {
