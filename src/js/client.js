@@ -9,8 +9,6 @@ import Screenplay from './pages/Screenplay';
 
 import Layout from './components/Layout';
 
-import '../css/main.css';
-
 const app = document.getElementById('app');
 
 render(
