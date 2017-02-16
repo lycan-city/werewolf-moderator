@@ -17,10 +17,10 @@ module.exports = {
           {
             test: /\.jsx?$/,
             exclude: /(node_modules|bower_components)/,
-            loader: 'babel'
+            loader: 'babel-loader'
           },
-          { test: /\.json$/, loader: "json" },
-          { test: /\.css$/, loader: "css" }
+          { test: /\.json$/, loader: "json-loader" },
+          { test: /\.css$/, loader: "css-loader" }
       ]
   },
   plugins:[
