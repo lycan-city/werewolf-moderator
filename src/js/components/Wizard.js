@@ -1,15 +1,22 @@
 import React, {cloneElement} from 'react';
+import werewolfService from '../services/werewolf';
+
 
 export default class Wizard extends React.Component {
   constructor(){
     super();
     this.state = {
-      players: 0
+      players: 0,
+      currentDeck: '',
     };
   }
 
   setPlayers(players) {
-    this.setState({players: players.value});
+    this.setState(Object.assign({}, this.state, players));
+  }
+
+  setCurrentDeck(currentDeck){
+    this.setState(Object.assign({}, this.state, currentDeck));
   }
 
   render() {
@@ -18,8 +25,9 @@ export default class Wizard extends React.Component {
         {
           this.props.children && 
           cloneElement(this.props.children, { 
-            setPlayers: this.setPlayers.bind(this), 
-            manin: this.state
+            setPlayers: this.setPlayers.bind(this),
+            state: this.state,
+            decks: Object.keys(werewolfService.getDecks()),
             })
         }
       </div>

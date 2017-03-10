@@ -1,21 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router';
-import werewolfService from '../services/werewolf';
 
 import Header from '../components/Header';
 
 export default class Home extends React.Component {
   constructor(){
     super();
+    this.onPlayersChanged = this.onPlayersChanged.bind(this);
+    this.onDeckChanged = this.onDeckChanged.bind(this);
   }
 
   onPlayersChanged(event) {
-    this.props.setPlayers({value: event.target.value});
+    this.props.setPlayers({players: parseInt(event.target.value, 10)});
   }
-  
+
+  onDeckChanged(event) {
+    this.props.setPlayers({currentDeck: event.target.value});
+  }
+
   render() {
-    const decks = Object.keys(werewolfService.getDecks());
-    const options = decks.map((e, i) => <option value={e} key={i}>{e}</option> );
+    const options = this.props.decks.map((e, i) => <option value={e} key={i}>{e}</option> );
 
     return (
     <div>
@@ -26,12 +30,12 @@ export default class Home extends React.Component {
             <form class="form-horizontal">
               <div class="form-group col-md-12">
                 <label class="control-label" for="players">Players</label>
-                <input name="players" type="number" class="form-control input-md" placeholder="0" min="0" value={this.props.manin.players} onChange={this.onPlayersChanged.bind(this)} />
+                <input name="players" type="number" class="form-control input-md" placeholder="0" min="0" value={this.props.state.players} onChange={this.onPlayersChanged} />
               </div>
               <div class="form-group col-md-12">
                 <label class="control-label" for="deck">Deck</label>
                 <div class="">
-                  <select id="deck" name="deck" class="form-control">
+                  <select id="deck" name="deck" class="form-control" onChange={this.onDeckChanged} value={this.props.state.currentDeck}>
                     {options}
                   </select>
                 </div>
