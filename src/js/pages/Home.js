@@ -7,23 +7,15 @@ import Header from '../components/Header';
 export default class Home extends React.Component {
   constructor(){
     super();
-    this.state = {
-      playersCount: 0,
-    };
   }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  onPlayersChanged(event) {
+    this.props.setPlayers({value: event.target.value});
   }
-
-  upperFirstLetter(string){
-      return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
+  
   render() {
     const decks = Object.keys(werewolfService.getDecks());
-    const options = decks.map(this.upperFirstLetter)
-    .map((e, i) => <option value={e} key={i}>{e}</option> );
+    const options = decks.map((e, i) => <option value={e} key={i}>{e}</option> );
 
     return (
     <div>
@@ -34,7 +26,7 @@ export default class Home extends React.Component {
             <form class="form-horizontal">
               <div class="form-group col-md-12">
                 <label class="control-label" for="players">Players</label>
-                <input name="players" type="number" class="form-control input-md" placeholder="0" min="0" value={this.state.playersCount} onChange={this.handleChange} />
+                <input name="players" type="number" class="form-control input-md" placeholder="0" min="0" value={this.props.manin.players} onChange={this.onPlayersChanged.bind(this)} />
               </div>
               <div class="form-group col-md-12">
                 <label class="control-label" for="deck">Deck</label>
