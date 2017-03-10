@@ -2,9 +2,21 @@ import React from 'react';
 import { Link, browserHistory } from 'react-router';
 
 import Header from '../components/Header';
+import service from '../services/werewolf';
 
 export default class Cards extends React.Component {
   render() {
+    const cards = service
+      .getCards()
+      .slice(0, 14) // todo: pagination
+      .map(c => (
+        <div class="col-md-6 col-xs-12" key={c.role}>
+          <div class="col-md-8 col-xs-6">
+            <label><input type="checkbox" name={c.role} /> {c.role}</label>
+          </div>
+        </div>
+      ));
+
     return (
       <div>
         <Header name="Cards" />
@@ -12,80 +24,10 @@ export default class Cards extends React.Component {
           <div class="panel panel-default">
             <div class="panel-body">
               <form class="form-horizontal">
-                <div class="form-group ">
-                  <div class="col-md-6 col-xs-12">
-                    <div class="col-md-8 col-xs-6">
-                      <input type="checkbox" /> Bodyguard
-                    </div>
-                    <div class="col-md-2  col-xs-6">
-                      <input type="text" name="FirstName" value="2" readOnly size="1" />
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-xs-12">
-                    <div class="col-md-8 col-xs-6">
-                      <input type="checkbox" /> Virginia Woolf
-                    </div>
-                    <div class="col-md-2 col-xs-6">
-                      <input type="text" name="FirstName" value="2" readOnly size="1" />
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group ">
-                  <div class="col-md-6 col-xs-12">
-                    <div class="col-md-8 col-xs-6">
-                      <input type="checkbox" /> Werewolf
-                    </div>
-                    <div class="col-md-2  col-xs-6">
-                      <input type="text" name="FirstName" value="2" readOnly size="1" />
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-xs-12">
-                    <div class="col-md-8 col-xs-6">
-                      <input type="checkbox" /> Prince
-                    </div>
-                    <div class="col-md-2 col-xs-6">
-                      <input type="text" name="FirstName" value="2" readOnly size="1" />
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group ">
-                  <div class="col-md-6 col-xs-12">
-                    <div class="col-md-8 col-xs-6">
-                      <input type="checkbox" /> Drunk
-                    </div>
-                    <div class="col-md-2  col-xs-6">
-                      <input type="text" name="FirstName" value="2" readOnly size="1" />
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-xs-12">
-                    <div class="col-md-8 col-xs-6">
-                      <input type="checkbox" /> Cupid
-                    </div>
-                    <div class="col-md-2 col-xs-6">
-                      <input type="text" name="FirstName" value="2" readOnly size="1" />
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group ">
-                  <div class="col-md-6 col-xs-12">
-                    <div class="col-md-8 col-xs-6">
-                      <input type="checkbox" /> Wild Child
-                    </div>
-                    <div class="col-md-2  col-xs-6">
-                      <input type="text" name="FirstName" value="2" readOnly size="1" />
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-xs-12">
-                    <div class="col-md-8 col-xs-6">
-                      <input type="checkbox" /> Hunter
-                    </div>
-                    <div class="col-md-2 col-xs-6">
-                      <input type="text" name="FirstName" value="2" readOnly size="1" />
-                    </div>
-                  </div>
-                </div>
+                {cards}
               </form>
             </div>
+            
             <div class="panel-footer">
               <Link to={{pathname:"game", query:{type: "balanced"} }} className="btn btn-success pull-right col-md-4 col-xs-12 btn-space"><i class="fa fa-balance-scale" aria-hidden="true"></i> Start Balanced </Link>
               <Link to={{pathname:"game", query:{type: "chaos"} }} className="btn btn-danger pull-right col-md-4 col-xs-12 btn-space"><i class="fa fa-arrows" aria-hidden="true"></i> Start Chaos </Link>

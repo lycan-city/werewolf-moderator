@@ -1,10 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router';
+import werewolfService from '../services/werewolf';
 
 import Header from '../components/Header';
 
 export default class Home extends React.Component {
+  constructor(){
+    super();
+    this.state = {
+      playersCount: 0,
+    };
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  upperFirstLetter(string){
+      return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   render() {
+    const decks = Object.keys(werewolfService.getDecks());
+    const options = decks.map(this.upperFirstLetter)
+    .map((e, i) => <option value={e} key={i}>{e}</option> );
+
     return (
     <div>
       <Header name="Home" />
@@ -14,19 +34,13 @@ export default class Home extends React.Component {
             <form class="form-horizontal">
               <div class="form-group col-md-12">
                 <label class="control-label" for="players">Players</label>
-                <input id="players" name="players" type="number" class="form-control input-md" placeholder="0" required="" />
+                <input name="players" type="number" class="form-control input-md" placeholder="0" min="0" value={this.state.playersCount} onChange={this.handleChange} />
               </div>
               <div class="form-group col-md-12">
                 <label class="control-label" for="deck">Deck</label>
                 <div class="">
                   <select id="deck" name="deck" class="form-control">
-                    <option value="0">None</option>
-                    <option value="1">Basic</option>
-                    <option value="2">Novice</option>
-                    <option value="3">Amateur</option>
-                    <option value="4">Wolfpack</option>
-                    <option value="5">Competent</option>
-                    <option value="6">Vampire</option>
+                    {options}
                   </select>
                 </div>
               </div>
