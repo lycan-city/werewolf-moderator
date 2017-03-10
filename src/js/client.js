@@ -7,13 +7,13 @@ import Game from './pages/Game';
 import Cards from './pages/Cards';
 import Screenplay from './pages/Screenplay';
 
-import Layout from './components/Layout';
+import App from './components/App';
 
 const app = document.getElementById('app');
 
 render(
 <Router history={browserHistory}>
-    <Route component={Layout}>
+    <Route component={App}>    
         <Route path="/" component={Home} />
         <Route path="game" component={Game}/>
         <Route path="cards" component={Cards} />
