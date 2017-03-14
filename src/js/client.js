@@ -7,16 +7,19 @@ import Game from './pages/Game';
 import Cards from './pages/Cards';
 import Screenplay from './pages/Screenplay';
 
-import Layout from './components/Layout';
+import App from './components/App';
+import Wizard from './components/Wizard';
 
 const app = document.getElementById('app');
 
 render(
 <Router history={browserHistory}>
-    <Route component={Layout}>
-        <Route path="/" component={Home} />
+    <Route component={App}>
+        <Route component={Wizard}>
+            <Route path="/" component={Home} />
+            <Route path="cards" component={Cards} props="" />
+        </Route>
         <Route path="game" component={Game}/>
-        <Route path="cards" component={Cards} />
         <Route path="screenplay" component={Screenplay} />
     </Route>
 </Router>, app);

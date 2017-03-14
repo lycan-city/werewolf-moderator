@@ -4,7 +4,23 @@ import { Link } from 'react-router';
 import Header from '../components/Header';
 
 export default class Home extends React.Component {
+  constructor(){
+    super();
+    this.onPlayersChanged = this.onPlayersChanged.bind(this);
+    this.onDeckChanged = this.onDeckChanged.bind(this);
+  }
+
+  onPlayersChanged(event) {
+    this.props.setPlayers({players: parseInt(event.target.value, 10)});
+  }
+
+  onDeckChanged(event) {
+    this.props.setPlayers({currentDeck: event.target.value});
+  }
+
   render() {
+    const options = this.props.decks.map((e, i) => <option value={e} key={i}>{e}</option> );
+
     return (
     <div>
       <Header name="Home" />
@@ -14,19 +30,13 @@ export default class Home extends React.Component {
             <form class="form-horizontal">
               <div class="form-group col-md-12">
                 <label class="control-label" for="players">Players</label>
-                <input id="players" name="players" type="number" class="form-control input-md" placeholder="0" required="" />
+                <input name="players" type="number" class="form-control input-md" placeholder="0" min="0" value={this.props.state.players} onChange={this.onPlayersChanged} />
               </div>
               <div class="form-group col-md-12">
                 <label class="control-label" for="deck">Deck</label>
                 <div class="">
-                  <select id="deck" name="deck" class="form-control">
-                    <option value="0">None</option>
-                    <option value="1">Basic</option>
-                    <option value="2">Novice</option>
-                    <option value="3">Amateur</option>
-                    <option value="4">Wolfpack</option>
-                    <option value="5">Competent</option>
-                    <option value="6">Vampire</option>
+                  <select id="deck" name="deck" class="form-control" onChange={this.onDeckChanged} value={this.props.state.currentDeck}>
+                    {options}
                   </select>
                 </div>
               </div>
