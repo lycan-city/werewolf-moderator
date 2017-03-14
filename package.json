@@ -4,7 +4,7 @@
   "description": "App to moderate werewolf game.",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "webpack --watch | webpack-dev-server --content-base docs"
+    "start": "webpack-dev-server --content-base docs --inline --history-api-fallback"
   },
   "authors": [
     "wistcc <wistcc@gmail.com> http://winnercrespo.com",
@@ -17,20 +17,20 @@
   "repository": "https://github.com/wistcc/werewolf-brain",
   "license": "ISC",
   "devDependencies": {
-    "babel-core": "^6.21.0",
-    "babel-loader": "^6.2.10",
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.1",
     "babel-plugin-react-html-attrs": "^2.0.0",
-    "babel-plugin-transform-class-properties": "^6.22.0",
+    "babel-plugin-transform-class-properties": "^6.23.0",
     "babel-preset-es2015": "^6.22.0",
-    "babel-preset-react": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
     "babel-preset-stage-0": "^6.22.0",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.26.1",
     "json-loader": "^0.5.4",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
-    "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.2"
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.3.0"
   },
   "dependencies": {
     "react-router": "^3.0.2",
