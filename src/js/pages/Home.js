@@ -11,15 +11,15 @@ export default class Home extends React.Component {
   }
 
   onPlayersChanged(event) {
-    this.props.setPlayers({players: parseInt(event.target.value, 10)});
+    this.props.setPlayers(parseInt(event.target.value, 10));
   }
 
   onDeckChanged(event) {
-    this.props.setPlayers({currentDeck: event.target.value});
+    this.props.setCurrentDeck(event.target.value);
   }
 
   render() {
-    const options = this.props.decks.map((e, i) => <option value={e} key={i}>{e}</option> );
+    const options = this.props.getDecks().map((e, i) => <option value={e} key={i}>{e}</option> );
 
     return (
     <div>

@@ -5,14 +5,21 @@ import Header from '../components/Header';
 import service from '../services/werewolf';
 
 export default class Cards extends React.Component {
+  
+  setVisibility(ev) {
+    const card = ev.target.name;
+    const checked = ev.target.checked;
+    this.props.setCardVisibility(card, checked);
+  }
+
   render() {
-    const cards = service
-      .getCards()
+    const cards = this.props
+      .getCardsInGame()
       .slice(0, 14) // todo: pagination
       .map(c => (
-        <div class="col-md-6 col-xs-12" key={c.role}>
+        <div class="col-md-6 col-xs-12" key={c.key}>
           <div class="col-md-8 col-xs-6">
-            <label><input type="checkbox" name={c.role} /> {c.role}</label>
+            <label><input type="checkbox" onChange={this.setVisibility.bind(this)} checked={c.visible} name={c.key} /> {c.key}</label>
           </div>
         </div>
       ));
