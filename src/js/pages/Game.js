@@ -29,8 +29,9 @@ export default class Game extends React.Component {
 						{cards}
 					</div>
 					<div class="panel-footer">
-						<Link to="screenplay" className="btn btn-success pull-right col-md-6 col-xs-12"><i class="fa fa-book" aria-hidden="true"></i> Screenplay</Link>
-						<button onClick={browserHistory.goBack} class="btn btn-default pull-left col-md-4 col-xs-12"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+						<Link to="/" className="btn btn-default col-md-2 col-xs-12"><i class="fa fa-arrow-left" aria-hidden="true"></i></Link>						
+						<Link to="rematch" className="btn btn-primary col-md-4 col-xs-12 col-md-offset-1"><i class="fa fa-refresh" aria-hidden="true"></i> Rematch</Link>						
+						<Link to="screenplay" className="btn btn-success col-md-4 col-xs-12 col-md-offset-1"><i class="fa fa-book" aria-hidden="true"></i> Screenplay</Link>						
 						<div class="clearfix"></div>
 					</div>
 				</div>

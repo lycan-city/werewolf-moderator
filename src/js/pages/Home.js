@@ -44,12 +44,12 @@ export default class Home extends React.Component {
           </div>
           <div class="panel-footer">
             <div class="col-md-12">
-              <Link to="cards" className="btn btn-success btn-block">Next  <i class="fa fa-arrow-right" aria-hidden="true"></i></Link>
+              <Link to="cards" className="btn btn-success btn-block">Customize  <i class="fa fa-cog" aria-hidden="true"></i></Link>
             </div>
             <hr />
             <div class="col-md-12">
-              <Link to={{pathname:"game", query:{type: "chaos"} }} className="btn btn-default col-md-4 pull-left"><i class="fa fa-arrows" aria-hidden="true"></i> Quick Chaos</Link>
-              <Link to={{pathname:"game", query:{type: "balanced"} }} className="btn btn-default col-md-4 pull-right"><i class="fa fa-balance-scale" aria-hidden="true"></i> Quick Balanced</Link>
+              <button onClick={this.props.startGame.bind(this, "chaos")} className="btn btn-default col-md-5"><i class="fa fa-arrows" aria-hidden="true"></i> Quick Chaos</button>
+              <Link onClick={this.props.startGame.bind(this, "balanced")} className="btn btn-default col-md-5 col-md-offset-2"><i class="fa fa-balance-scale" aria-hidden="true"></i> Quick Balanced</Link>
             </div>
             <div class="clearfix"></div>
           </div>
