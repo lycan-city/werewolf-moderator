@@ -2,7 +2,7 @@ import React, {cloneElement} from 'react';
 import { browserHistory } from 'react-router';
 import werewolfService from '../services/werewolf';
 
-const DEFAULT_GAME_TYPE = 'balanced';
+const DEFAULT_GAME_MODE = 'balanced';
 
 export default class Wizard extends React.Component {
   constructor(){
@@ -10,8 +10,13 @@ export default class Wizard extends React.Component {
     this.state = {
       players: 0,
       currentDeck: 'basic', //todo: proper initialization with deck ' * '
-      currentCards: werewolfService.getCards(),
+      currentCards: werewolfService.getCardsInDeck('basic'), // same as ^
+      mode: DEFAULT_GAME_MODE,
     };
+  }
+
+  componentWillMount() {
+    this.setCurrentDeck(this.state.currentDeck);
   }
 
   setPlayers(players) {
@@ -19,7 +24,7 @@ export default class Wizard extends React.Component {
   }
 
   setCurrentDeck(currentDeck) {
-    const currentCards = werewolfService.getCards()
+    const currentCards = werewolfService.getCardsInDeck(currentDeck)
     .map(c => {
       return {
         key: c.key,
@@ -33,9 +38,17 @@ export default class Wizard extends React.Component {
 
   setCardVisibility(cardKey, visible) {
     const currentCards = this.state.currentCards;
-    const cardIndex = currentCards.findIndex(c => c.key === cardKey);
-
-    currentCards[cardIndex].visible = visible;
+    
+    if(visible) {
+      const card = werewolfService.getCards().find(c => c.key === cardKey);
+      card.visible = true;
+      card.value = 1;
+      currentCards.push(card);
+    }
+    else {
+      const cardIndex = currentCards.findIndex(c => c.key === cardKey);
+      currentCards.splice(cardIndex, 1);
+    }
 
     this.setState(Object.assign({}, this.state, {currentCards}, {currentDeck: 'custom'}));
   }
@@ -57,7 +70,8 @@ export default class Wizard extends React.Component {
     return this.state.currentCards;
   }
   
-  startGame(type = DEFAULT_GAME_TYPE) {
+  startGame(mode = DEFAULT_GAME_MODE) {
+    this.setState(Object.assign({}, this.state, {mode}));
     localStorage.setItem('currentState', JSON.stringify(this.state));
     browserHistory.push('/game');
   }
@@ -72,8 +86,9 @@ export default class Wizard extends React.Component {
             setCurrentDeck: this.setCurrentDeck.bind(this),
             setCardVisibility: this.setCardVisibility.bind(this),
             getDecks: this.getDecks.bind(this),
+            getAllCards: werewolfService.getCards.bind(this),
             getCardsInGame: this.getCardsInGame.bind(this),
-            changeCardValue: this.changeCardValue,
+            changeCardValue: this.changeCardValue.bind(this),
             startGame: this.startGame.bind(this),
             state: this.state,
             })

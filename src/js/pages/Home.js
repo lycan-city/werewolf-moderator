@@ -49,7 +49,7 @@ export default class Home extends React.Component {
             <hr />
             <div class="col-md-12">
               <button onClick={this.props.startGame.bind(this, "chaos")} className="btn btn-default col-md-5"><i class="fa fa-arrows" aria-hidden="true"></i> Quick Chaos</button>
-              <Link onClick={this.props.startGame.bind(this, "balanced")} className="btn btn-default col-md-5 col-md-offset-2"><i class="fa fa-balance-scale" aria-hidden="true"></i> Quick Balanced</Link>
+              <button onClick={this.props.startGame.bind(this, "balanced")} className="btn btn-default col-md-5 col-md-offset-2"><i class="fa fa-balance-scale" aria-hidden="true"></i> Quick Balanced</button>
             </div>
             <div class="clearfix"></div>
           </div>
