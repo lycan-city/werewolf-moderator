@@ -12,19 +12,20 @@ export default class Game extends React.Component {
 			players: 0,
 			mode: '', //TODO: Better way to do this
 			currentCards: [],
+			currentDeck: '',
 		};
 
 		this.rematch = this.rematch.bind(this);
 	}
 
 	componentWillMount() {
-		const { players, mode, currentCards } = JSON.parse(localStorage.getItem('currentState'));
-		const game = service.createGame(players, mode, currentCards);
-		this.setState({ players, mode, currentCards, deck: game.deck });
+		const { players, mode, currentCards, currentDeck } = JSON.parse(localStorage.getItem('currentState')); console.log('currentDeck', currentDeck);
+		const game = service.createGame(players, mode, currentCards, currentDeck);
+		this.setState({ players, mode, currentCards, deck: game.deck, currentDeck });
 	}
 
 	rematch(){
-		const game = service.createGame(this.state.players, this.state.mode, this.state.currentCards);
+		const game = service.createGame(this.state.players, this.state.mode, this.state.currentCards, this.state.currentDeck);
 		const state = Object.assign({}, this.state, { deck: game.deck });
 		this.setState(state);
 	}
