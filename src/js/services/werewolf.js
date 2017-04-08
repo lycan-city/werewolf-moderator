@@ -7,12 +7,12 @@ export default new class werewolfService {
     
     getCards() {
         const cards = brain.getCards();
-        return Object.keys(cards).map(_ => {return {key: _, value: cards[_]}});
+        return Object.keys(cards).map(key => {return {key, value: cards[key]}});
     }
 
     getCardsInDeck(deck) {
         const cards = brain.getDeck(deck);
-        return Object.keys(cards).map(_ => { return {key: _, value: cards[_]}})
+        return Object.keys(cards).map(key => { return {key, value: cards[key]}})
     }
 
     isInDeck(card, deck) {
