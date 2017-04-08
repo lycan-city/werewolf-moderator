@@ -30,7 +30,7 @@ export default class Cards extends React.Component {
       })
       .map(c => (
         <div class="col-md-6 col-xs-12" key={c.key}>
-            <label><input type="checkbox" onChange={this.setVisibility} checked={c.visible || false} name={c.key} /> {c.key}</label>
+            <label><input type="checkbox" onChange={this.setVisibility} checked={c.visible} name={c.key} /> {c.key}</label>
             <input class='pull-right card-quantity' type={"number"} value={c.value} min={0} name={c.key} onChange={this.changeCardValue} disabled={!c.visible} ></input>
         </div>
       ));
