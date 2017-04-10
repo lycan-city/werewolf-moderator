@@ -1,36 +1,56 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
+import service from '../services/werewolf';
 
 import Header from '../components/Header';
 
 export default class Screenplay extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      deck: [],
+      script: [],
+      lang: 'en', //TODO: Better defaults
+    };
+
+    this.changeLanguage = this.changeLanguage.bind(this);
+  }
+
+  componentWillMount() {
+    const { currentCards } = JSON.parse(localStorage.getItem('currentState'));
+    const script = service.getScript(currentCards, this.state.lang);
+    this.setState(Object.assign({}, this.state, { script, deck: currentCards }));
+  }
+
+  changeLanguage(event) {
+    const lang = event.target.name;
+    const script = service.getScript(this.state.deck, lang);
+    this.setState(Object.assign({}, { lang, script }));
+  }
+
   render() {
+    const cards = this.state.script.map((c, i) => (
+      <a href="#" class="list-group-item" key={i}>
+        <h4 class="list-group-item-heading"></h4>
+        <p class="list-group-item-text">{c}</p>
+      </a>
+    ));
+
     return (
       <div>
-        <Header  />
+        <Header name="Screenplay" />
         <div class="col-md-4 col-md-offset-4">
           <div class="panel panel-default ">
             <div class="panel-heading">
               <div class="pull-right">
-                <button id="espanishBtn" type="button" class="btn btn-default">ES</button>
-                <button id="englishBtn" type="button" class="btn btn-default">EN</button>
+                <button onClick={this.changeLanguage} name="es" type="button" class="btn btn-default">ES</button>
+                <button onClick={this.changeLanguage} name="en" type="button" class="btn btn-default">EN</button>
               </div>
               <div class="clearfix"></div>
             </div>
             <div class="panel-body">
               <div class="list-group">
-                <a href="#" class="list-group-item">
-                  <h4 class="list-group-item-heading">Hunter</h4>
-                  <p class="list-group-item-text">Open your eyes</p>
-                </a>
-                <a href="#" class="list-group-item">
-                  <h4 class="list-group-item-heading">Cupid</h4>
-                  <p class="list-group-item-text">Wake up Cupid and choose the lovebirds</p>
-                </a>
-                <a href="#" class="list-group-item">
-                  <h4 class="list-group-item-heading">Werewolf</h4>
-                  <p class="list-group-item-text">Open your ayes and look for other wewwolf.</p>
-                </a>
+                {cards}
               </div>
             </div>
             <div class="panel-footer">
