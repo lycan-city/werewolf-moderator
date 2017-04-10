@@ -19,9 +19,16 @@ export default new class werewolfService {
         return !!brain.getDeck(deck)[card];
     }
 
-    createGame(players, mode, cardsArray) {
-        const deck = cardsArray.reduce((t, i) => { t[i.key] = i.value; return t; }, {});
-        return brain.getGame(players, { mode, deck });
+    createGame(players, mode, cardsArray, deckName) {
+        let options = {};
+        options.mode = mode;
+
+        if(deckName === "custom") //TODO: standardize?
+            options.deck = cardsArray.reduce((t, i) => { t[i.key] = i.value; return t; }, {});
+        else
+            options.deckName = deckName;
+        
+        return brain.getGame(players, options);
     }
 
     getScript(deck, lang='en') { //TODO: better defaults
