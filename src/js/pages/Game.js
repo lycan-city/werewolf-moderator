@@ -20,7 +20,6 @@ export default class Game extends React.Component {
 
 	componentWillMount() {
 		const { players, mode, currentCards, currentDeck, game } = JSON.parse(localStorage.getItem('currentState'));
-		console.log(players, mode, currentCards, currentDeck, game)
 		this.setState({ players, mode, currentCards, currentDeck, game });
 	}
 
@@ -28,7 +27,7 @@ export default class Game extends React.Component {
 		const { players, mode, currentCards, currentDeck, game } = this.state;
 		const newGame = service.createGame(players, mode, currentCards, currentDeck);
 		const state = Object.assign({}, this.state, { game : newGame });
-		console.log(state)
+
 		localStorage.setItem('currentState', JSON.stringify(state));
 		this.setState(state);
 	}
