@@ -8,30 +8,33 @@ export default class Game extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			deck: [],
 			players: 0,
 			mode: '', //TODO: Better way to do this
 			currentCards: [],
 			currentDeck: '',
+			game: {},
 		};
 
 		this.rematch = this.rematch.bind(this);
 	}
 
 	componentWillMount() {
-		const { players, mode, currentCards, currentDeck } = JSON.parse(localStorage.getItem('currentState')); console.log('currentDeck', currentDeck);
-		const game = service.createGame(players, mode, currentCards, currentDeck);
-		this.setState({ players, mode, currentCards, deck: game.deck, currentDeck });
+		const { players, mode, currentCards, currentDeck, game } = JSON.parse(localStorage.getItem('currentState'));
+		console.log(players, mode, currentCards, currentDeck, game)
+		this.setState({ players, mode, currentCards, currentDeck, game });
 	}
 
 	rematch(){
-		const game = service.createGame(this.state.players, this.state.mode, this.state.currentCards, this.state.currentDeck);
-		const state = Object.assign({}, this.state, { deck: game.deck });
+		const { players, mode, currentCards, currentDeck, game } = this.state;
+		const newGame = service.createGame(players, mode, currentCards, currentDeck);
+		const state = Object.assign({}, this.state, { game : newGame });
+		console.log(state)
+		localStorage.setItem('currentState', JSON.stringify(state));
 		this.setState(state);
 	}
 
 	render() {
-		const cards = this.state.deck.map(c =>
+		const cards = this.state.game.deck.map(c =>
 			<div class="media" key={c.role}>
 				<div class="media-left media-middle">
 					<a href="#">
