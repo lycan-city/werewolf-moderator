@@ -31,7 +31,6 @@ export default class Game extends React.Component {
 	}
 
 	render() {
-		console.log('state', this.state);
 		const cards = this.state.deck.map(c =>
 			<div class="media" key={c.role}>
 				<div class="media-left media-middle">

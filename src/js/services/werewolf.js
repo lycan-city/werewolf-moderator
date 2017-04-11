@@ -24,7 +24,7 @@ export default new class werewolfService {
         options.mode = mode;
 
         if(deckName === "custom") //TODO: standardize?
-            options.deck = cardsArray.reduce((t, i) => { t[i.key] = i.value; return t; }, {});
+            options.deck = cardsArray.reduce((t, i) => { t[i.key] = i.amount; return t; }, {});
         else
             options.deckName = deckName;
         
