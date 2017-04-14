@@ -8,10 +8,11 @@ export default class Wizard extends React.Component {
   constructor(){
     super();
     this.state = {
-      players: 0,
+      players: 5,
       currentDeck: 'basic', //todo: proper initialization with deck ' * '
       currentCards: werewolfService.getCardsInDeck('basic'), // same as ^
       mode: DEFAULT_GAME_MODE,
+      game: {},
     };
   }
 
@@ -71,9 +72,13 @@ export default class Wizard extends React.Component {
   }
   
   startGame(mode = DEFAULT_GAME_MODE) {
-    this.setState(Object.assign({}, this.state, {mode}));
-    localStorage.setItem('currentState', JSON.stringify(this.state));
-    browserHistory.push('/game');
+    const {players, currentCards, currentDeck} =  this.state;
+    const game = werewolfService.createGame(players, mode, currentCards, currentDeck );
+
+    this.setState(Object.assign({}, this.state, { mode, game }), () => {
+      localStorage.setItem('currentState', JSON.stringify(this.state));
+      browserHistory.push('/game');
+    });
   }
 
   render() {
