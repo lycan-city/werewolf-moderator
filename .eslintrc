@@ -1,0 +1,14 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "no-plusplus": 0,
+    "react/no-unknown-property": 0, // babel react-html-attrs has this covered
+    "jsx-a11y/label-has-for": 0, // babel react-html-attrs has this covered
+    "forbid-prop-types": 0, //disabling because we're passing state as prop, should check
+    "no-param-reassign": [2, { "props": false }], // array.reduce should be able to modify it's param
+    "jsx-a11y/href-no-hash": 0 // disabling for now, should checkout
+  },
+  "env": {
+      "browser": true
+  }
+}
