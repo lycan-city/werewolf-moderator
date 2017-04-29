@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
 import service from '../services/werewolf';
-
 import Header from '../components/Header';
+import languages from '../core/languages';
 
 export default class Screenplay extends React.Component {
   constructor() {
@@ -43,8 +43,8 @@ export default class Screenplay extends React.Component {
           <div class="panel panel-default ">
             <div class="panel-heading">
               <div class="pull-right">
-                <button onClick={this.changeLanguage} name="es" type="button" class="btn btn-default">ES</button>
-                <button onClick={this.changeLanguage} name="en" type="button" class="btn btn-default">EN</button>
+                <button onClick={this.changeLanguage} name={languages.spanish} type="button" class="btn btn-default">ES</button>
+                <button onClick={this.changeLanguage} name={languages.english} type="button" class="btn btn-default">EN</button>
               </div>
               <div class="clearfix"></div>
             </div>
