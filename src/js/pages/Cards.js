@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
+import gamesTypes from '../core/gameTypes';
 
 import Header from '../components/Header';
 
@@ -51,8 +52,8 @@ export default class Cards extends React.Component {
             
             <div class="panel-footer">
               <button onClick={browserHistory.goBack} className="btn btn-default col-md-2 col-xs-12 btn-space"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>              
-              <button onClick={this.props.startGame.bind(this, "chaos")} className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"><i class="fa fa-arrows" aria-hidden="true"></i> Quick Chaos</button>
-              <button onClick={this.props.startGame.bind(this, "balanced")} className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"><i class="fa fa-balance-scale" aria-hidden="true"></i> Quick Balanced</button>
+              <button onClick={this.props.startGame.bind(this, gamesTypes.chaos)} className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"><i class="fa fa-arrows" aria-hidden="true"></i> Quick Chaos</button>
+              <button onClick={this.props.startGame.bind(this, gamesTypes.balanced)} className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"><i class="fa fa-balance-scale" aria-hidden="true"></i> Quick Balanced</button>
               <div class="clearfix"></div>
             </div>
           </div>

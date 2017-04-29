@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
-
 import Header from '../components/Header';
+import gamesTypes from '../core/gameTypes';
 
 export default class Home extends React.Component {
   constructor(){
@@ -48,8 +48,8 @@ export default class Home extends React.Component {
             </div>
             <hr />
             <div class="col-md-12">
-              <button onClick={this.props.startGame.bind(this, "chaos")} className="btn btn-default col-md-5"><i class="fa fa-arrows" aria-hidden="true"></i> Quick Chaos</button>
-              <button onClick={this.props.startGame.bind(this, "balanced")} className="btn btn-default col-md-5 col-md-offset-2"><i class="fa fa-balance-scale" aria-hidden="true"></i> Quick Balanced</button>
+              <button onClick={this.props.startGame.bind(this, gamesTypes.chaos)} className="btn btn-default col-md-5"><i class="fa fa-arrows" aria-hidden="true"></i> Quick Chaos</button>
+              <button onClick={this.props.startGame.bind(this, gamesTypes.balanced)} className="btn btn-default col-md-5 col-md-offset-2"><i class="fa fa-balance-scale" aria-hidden="true"></i> Quick Balanced</button>
             </div>
             <div class="clearfix"></div>
           </div>
