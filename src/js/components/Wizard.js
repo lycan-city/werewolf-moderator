@@ -95,8 +95,6 @@ export default class Wizard extends React.Component {
         {
           this.props.children && 
           cloneElement(this.props.children, { 
-            setPlayers: this.setPlayers.bind(this),
-            setCurrentDeck: this.setCurrentDeck.bind(this),
             setCardVisibility: this.setCardVisibility.bind(this),
             getDecks: this.getDecks.bind(this),
             getAllCards: werewolfService.getCards.bind(this),

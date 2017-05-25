@@ -14,7 +14,6 @@ import Wizard from './components/Wizard';
 import configureStore from './configureStore';
 
 const store = configureStore();
-const app = document.getElementById('app');
 
 render(
     <Provider store={store}>
@@ -28,4 +27,4 @@ render(
                 <Route path="screenplay" component={Screenplay} />
             </Route>
         </Router>
-    </Provider>, app);
+    </Provider>, document.getElementById('app'));

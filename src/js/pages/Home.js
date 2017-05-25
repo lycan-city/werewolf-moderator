@@ -1,13 +1,15 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+
 import Header from '../components/Header';
 import gamesTypes from '../core/gameTypes';
+import * as actionCreators from '../actions';
 
-export default class Home extends React.Component {
+class Home extends React.Component {
   constructor(){
     super();
-    this.onPlayersChanged = this.onPlayersChanged.bind(this);
-    this.onDeckChanged = this.onDeckChanged.bind(this);
   }
 
   onPlayersChanged(event) {
@@ -30,12 +32,12 @@ export default class Home extends React.Component {
             <form class="form-horizontal">
               <div class="form-group col-md-12">
                 <label class="control-label" for="players">Players</label>
-                <input name="players" type="number" class="form-control input-md" placeholder="0" min="0" value={this.props.state.players} onChange={this.onPlayersChanged} />
+                <input name="players" type="number" class="form-control input-md" placeholder="0" min="0" value={this.props.players} onChange={this.onPlayersChanged} />
               </div>
               <div class="form-group col-md-12">
                 <label class="control-label" for="deck">Deck</label>
                 <div class="">
-                  <select id="deck" name="deck" class="form-control" onChange={this.onDeckChanged} value={this.props.state.currentDeck}>
+                  <select id="deck" name="deck" class="form-control" onChange={this.onDeckChanged} value={this.props.currentDeck}>
                     {options}
                   </select>
                 </div>
@@ -59,3 +61,15 @@ export default class Home extends React.Component {
 );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    players: state.players,
+    currentDeck: state.currentDeck,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => 
+  bindActionCreators(actionCreators, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
