@@ -10,6 +10,7 @@ import * as actionCreators from '../actions';
 class Home extends React.Component {
   constructor(){
     super();
+    this.onPlayersChanged = this.onPlayersChanged.bind(this);
   }
 
   onPlayersChanged(event) {
