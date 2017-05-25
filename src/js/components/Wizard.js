@@ -1,16 +1,19 @@
 import React, {cloneElement} from 'react';
 import { browserHistory } from 'react-router';
 import werewolfService from '../services/werewolf';
+import gamesTypes from '../core/gameTypes';
 
-const DEFAULT_GAME_MODE = 'balanced';
+const DEFAULT_GAME_MODE = gamesTypes.balanced;
 
 export default class Wizard extends React.Component {
   constructor(){
     super();
+    const defaultDeck = this.getDecks()[0];
+
     this.state = {
-      players: 0,
-      currentDeck: 'basic', //todo: proper initialization with deck ' * '
-      currentCards: werewolfService.getCardsInDeck('basic'), // same as ^
+      players: 5,
+      currentDeck: defaultDeck,
+      currentCards: werewolfService.getCardsInDeck(defaultDeck),
       mode: DEFAULT_GAME_MODE,
       game: {},
     };
