@@ -18,6 +18,16 @@ const currentDeck = (state = '', action) => {
     }
 }
 
+const currentCards = (state = [], action) => {
+    switch(action.type) {
+        case 'SET_CURRENT_DECK':
+            return action.currentCards;
+        default:
+            return state;
+    }
+}
+
+
 export default combineReducers({ 
     players, 
     currentDeck

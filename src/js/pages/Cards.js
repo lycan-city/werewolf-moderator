@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import { Link, browserHistory } from 'react-router';
 import gamesTypes from '../core/gameTypes';
 
 import Header from '../components/Header';
 
-export default class Cards extends React.Component {
+class Cards extends React.Component {
   constructor() {
     super();
     this.setVisibility = this.setVisibility.bind(this);
@@ -62,3 +64,14 @@ export default class Cards extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    currentCards: state.currentCards,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => 
+  bindActionCreators(actionCreators, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cards);
