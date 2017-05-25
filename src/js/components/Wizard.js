@@ -75,6 +75,11 @@ export default class Wizard extends React.Component {
   }
   
   startGame(mode = DEFAULT_GAME_MODE) {
+    if(this.state.players <= 0) {
+      alert("Can't start a game with 0 players");
+      return;
+    }
+
     const {players, currentCards, currentDeck} =  this.state;
     const game = werewolfService.createGame(players, mode, currentCards, currentDeck );
 
