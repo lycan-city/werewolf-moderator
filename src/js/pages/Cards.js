@@ -1,21 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import * as actionCreators from '../actions';
-
-
-import { Link, browserHistory } from 'react-router';
-import gamesTypes from '../core/gameTypes';
-
 import Header from '../components/Header';
+import CardCustomizer from '../components/CardCustomizer';
 
 class Cards extends React.Component {
   constructor() {
     super();
+    this.state = {};
     this.setVisibility = this.setVisibility.bind(this);
     this.changeCardAmount = this.changeCardAmount.bind(this);
   }
-  
+
   setVisibility(ev) {
     const card = ev.target.name;
     const checked = ev.target.checked;
@@ -30,19 +28,14 @@ class Cards extends React.Component {
 
   render() {
     const cards = this.props
-      .getAllCards()
-      .map(c => {
-        /* Initial card state*/
-        c.amount = 0;
-        c.visible = false;
-        return this.props.getCardsInGame().find(k => k.key === c.key) || c;
-      })
-      .map(c => (
-        <div class="col-md-6 col-xs-12" key={c.key}>
-            <label><input type="checkbox" onChange={this.setVisibility} checked={c.visible} name={c.key} /> {c.key}</label>
-            <input class='pull-right card-quantity' type={"number"} value={c.amount} min={0} name={c.key} onChange={this.changeCardAmount} disabled={!c.visible} ></input>
-        </div>
-      ));
+      .cards
+      .map(card => Object.assign({}, card, { amount: this.props.deck[card.key] || 0 }))
+      .map(card =>
+        <CardCustomizer
+          key={card.key}
+          cardKey={card.key}
+          amount={card.amount} />
+      );
 
     return (
       <div>
@@ -54,11 +47,11 @@ class Cards extends React.Component {
                 {cards}
               </form>
             </div>
-            
+
             <div class="panel-footer">
-              <button onClick={browserHistory.goBack} className="btn btn-default col-md-2 col-xs-12 btn-space"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>              
-              <button onClick={this.props.startGame.bind(this, gamesTypes.chaos)} className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"><i class="fa fa-arrows" aria-hidden="true"></i> Quick Chaos</button>
-              <button onClick={this.props.startGame.bind(this, gamesTypes.balanced)} className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"><i class="fa fa-balance-scale" aria-hidden="true"></i> Quick Balanced</button>
+              <button onClick={this.props.goToHome} className="btn btn-default col-md-2 col-xs-12 btn-space"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+              <button onClick={this.props.startChaos} className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"><i class="fa fa-arrows" aria-hidden="true"></i> Quick Chaos</button>
+              <button onClick={this.props.startGame} className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"><i class="fa fa-balance-scale" aria-hidden="true"></i> Quick Balanced</button>
               <div class="clearfix"></div>
             </div>
           </div>
@@ -70,11 +63,12 @@ class Cards extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    currentCards: state.currentCards,
+    deck: state.gameSetup.deck,
+    cards: state.defaultData.cards,
   }
 }
 
-const mapDispatchToProps = (dispatch) => 
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(actionCreators, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cards);

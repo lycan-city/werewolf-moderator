@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import gameSetup from './gameSetup';
-import decks from './decks';
+import defaultData from './defaultData';
 import { routerReducer } from 'react-router-redux'
 
 export default combineReducers({ 
     gameSetup,
-    decks,
+    defaultData,
     router: routerReducer
 });
