@@ -12,18 +12,17 @@ class Cards extends React.Component {
     this.state = {};
     this.setVisibility = this.setVisibility.bind(this);
     this.changeCardAmount = this.changeCardAmount.bind(this);
-  }
-
-  setVisibility(ev) {
-    const card = ev.target.name;
-    const checked = ev.target.checked;
-    this.props.setCardVisibility(card, checked);
+    this.onCardAmountChanged = this.onCardAmountChanged.bind(this);
   }
 
   changeCardAmount(ev) {
     const card = ev.target.name;
     const amount = ev.target.value;
     this.props.changeAmountValue(card, amount);
+  }
+
+  onCardAmountChanged(cardKey, amount) {
+    this.props.cardAmountChanged(cardKey, amount);
   }
 
   render() {
@@ -34,7 +33,8 @@ class Cards extends React.Component {
         <CardCustomizer
           key={card.key}
           cardKey={card.key}
-          amount={card.amount} />
+          amount={card.amount}
+          onCardAmountChanged={this.onCardAmountChanged} />
       );
 
     return (

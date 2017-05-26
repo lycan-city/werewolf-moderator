@@ -1,7 +1,11 @@
 import { combineReducers } from 'redux';
 
 import gameTypes from '../core/gameTypes';
-import { SET_SELECTED_DECK, SET_PLAYERS } from '../actions/types';
+import { 
+    SET_SELECTED_DECK, 
+    SET_PLAYERS,
+    CHANGE_CARD_AMOUNT
+} from '../actions/types';
 import createReducer from '../lib/createReducer';
 
 const players = createReducer(5, {
@@ -19,6 +23,9 @@ const selectedDeck = createReducer('', {
 const deck = createReducer([], {
     [SET_SELECTED_DECK](state, action) {
         return action.deck;
+    },
+    [CHANGE_CARD_AMOUNT](state, action ) {
+        
     }
 });
 
