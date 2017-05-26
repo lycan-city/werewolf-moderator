@@ -1,48 +1,32 @@
 import { combineReducers } from 'redux';
 
 import gameTypes from '../core/gameTypes';
-import { SET_SELECTED_DECK } from '../actions/types';
+import { SET_SELECTED_DECK, SET_PLAYERS } from '../actions/types';
+import createReducer from '../lib/createReducer';
 
-const players = (state = 5, action) => {
-    switch (action.type) {
-        case 'SET_PLAYERS':
-            return action.players;
-        default:
-            return state;
+const players = createReducer(5, {
+    [SET_PLAYERS](state, action) {
+        return action.players;
     }
-}
+});
 
-const deck = (state = [], action) => {
-    return state;
-}
-
-const selectedDeck = (state = '', action) => {
-    switch (action.type) {
-        case SET_SELECTED_DECK:
-            return action.selectedDeck;
-        default:
-            return state;
+const selectedDeck = createReducer('', {
+    [SET_SELECTED_DECK](state, action) {
+        return action.selectedDeck;
     }
-}
+});
 
-const type = (state = gameTypes.balanced, action) => {
-    return state;
-}
-
-const selectedDeckCards = (state = [], action) => {
-    switch (action.type) {
-        case SET_SELECTED_DECK:
-            return action.selectedDeckCards;
-        default:
-            return state;
+const deck = createReducer([], {
+    [SET_SELECTED_DECK](state, action) {
+        return action.deck;
     }
-}
+});
 
+const type = createReducer(gameTypes.balanced, {});
 
 export default combineReducers({
     players,
     deck,
     selectedDeck,
-    selectedDeckCards,
     type,
 });

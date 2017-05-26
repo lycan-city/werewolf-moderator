@@ -10,7 +10,7 @@ export const setPlayers = (players) => {
 }
 
 export const setSelectedDeck = (selectedDeck) => {
-    const selectedDeckCards = werewolfService.getCardsInDeck(selectedDeck)
+    const deck = werewolfService.getCardsInDeck(selectedDeck)
     .map(c => {
       return {
         key: c.key,
@@ -22,7 +22,7 @@ export const setSelectedDeck = (selectedDeck) => {
     return {
         type: SET_SELECTED_DECK,
         selectedDeck,
-        selectedDeckCards,
+        deck,
     };
 }
 
