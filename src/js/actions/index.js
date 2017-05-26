@@ -1,5 +1,6 @@
 import werewolfService from '../services/werewolf';
 import { SET_AVAILABLE_DECKS, SET_SELECTED_DECK } from './types';
+import { push } from 'react-router-redux'
 
 export const setPlayers = (players) => {
     return {

@@ -1,7 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, Link, browserHistory } from 'react-router'
+import { Route } from 'react-router'
 import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'react-router-redux';
+import createHistory from 'history/createBrowserHistory';
 
 import Home from './pages/Home';
 import Game from './pages/Game';
@@ -13,16 +15,17 @@ import Wizard from './components/Wizard';
 
 import configureStore from './configureStore';
 
-const store = configureStore();
+const history = createHistory();
+const store = configureStore({ history });
 
 render(
     <Provider store={store}>
-        <Router history={browserHistory}>
-            <Route component={App}>
+        <ConnectedRouter history={history}>
+            <App>
                 <Route path="/" component={Home} />
                 <Route path="cards" component={Cards} />
                 <Route path="game" component={Game}/>
                 <Route path="screenplay" component={Screenplay} />
-            </Route>
-        </Router>
+            </App>
+        </ConnectedRouter>
     </Provider>, document.getElementById('app'));
