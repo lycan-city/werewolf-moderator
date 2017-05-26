@@ -1,5 +1,5 @@
 import werewolfService from '../services/werewolf';
-import { SET_AVAILABLE_DECKS, SET_SELECTED_DECK } from './types';
+import { PRELOAD_DEFAULT_DATA, SET_SELECTED_DECK } from './types';
 import { push } from 'react-router-redux'
 
 export const setPlayers = (players) => {
@@ -26,9 +26,14 @@ export const setSelectedDeck = (selectedDeck) => {
     };
 }
 
-export const getAvailableDecks = () => {
+export const preloadDefaultData = () => {
     return {
-        type: SET_AVAILABLE_DECKS,
+        type: PRELOAD_DEFAULT_DATA,
         decks: Object.keys(werewolfService.getDecks()),
+        cards: werewolfService.getCards(),
     };
+}
+
+export const customizeDeck = () => {
+    return push('cards');
 }

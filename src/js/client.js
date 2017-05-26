@@ -22,8 +22,8 @@ render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
             <App>
-                <Route path="/" component={Home} />
-                <Route path="cards" component={Cards} />
+                <Route exact path="/" component={Home} />
+                <Route path="/cards" component={Cards} />
                 <Route path="game" component={Game}/>
                 <Route path="screenplay" component={Screenplay} />
             </App>

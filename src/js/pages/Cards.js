@@ -1,5 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actionCreators from '../actions';
+
 
 import { Link, browserHistory } from 'react-router';
 import gamesTypes from '../core/gameTypes';

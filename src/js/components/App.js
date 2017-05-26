@@ -8,7 +8,7 @@ import * as actionCreators from '../actions';
 class App extends React.Component {
   
   componentWillMount() {
-    this.props.getAvailableDecks();
+    this.props.preloadDefaultData();
   }
 
   render() {

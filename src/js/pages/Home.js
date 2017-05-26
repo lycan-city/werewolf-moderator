@@ -21,7 +21,6 @@ class Home extends React.Component {
   }
 
   onSelectedDeckChanged(event) {
-    console.log(event.target.value)
     this.props.setSelectedDeck(event.target.value);
   }
 
