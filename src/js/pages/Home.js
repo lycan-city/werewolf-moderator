@@ -42,7 +42,7 @@ const mapStateToProps = (state) => {
   return {
     players: state.gameSetup.players,
     selectedDeck: state.gameSetup.selectedDeck,
-    decks: state.decks
+    decks: state.defaultData.decks
   }
 }
 
