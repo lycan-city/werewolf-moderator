@@ -19,10 +19,8 @@ render(
     <Provider store={store}>
         <Router history={browserHistory}>
             <Route component={App}>
-                <Route component={Wizard}>
-                    <Route path="/" component={Home} />
-                    <Route path="cards" component={Cards} props="" />
-                </Route>
+                <Route path="/" component={Home} />
+                <Route path="cards" component={Cards} />
                 <Route path="game" component={Game}/>
                 <Route path="screenplay" component={Screenplay} />
             </Route>

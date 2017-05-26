@@ -20,24 +20,7 @@ export default class Wizard extends React.Component {
   }
 
   componentWillMount() {
-    this.setCurrentDeck(this.state.currentDeck);
-  }
-
-  setPlayers(players) {
-    this.setState(Object.assign({}, this.state, {players}));
-  }
-
-  setCurrentDeck(currentDeck) {
-    const currentCards = werewolfService.getCardsInDeck(currentDeck)
-    .map(c => {
-      return {
-        key: c.key,
-        visible: werewolfService.isInDeck(c.key, currentDeck),
-        amount: 1,
-      }
-    });
-
-    this.setState(Object.assign({}, this.state, {currentDeck}, {currentCards}));
+    // this.setCurrentDeck(this.state.currentDeck);
   }
 
   setCardVisibility(cardKey, visible) {

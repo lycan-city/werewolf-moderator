@@ -1,4 +1,5 @@
 import werewolfService from '../services/werewolf';
+import { SET_AVAILABLE_DECKS, SET_SELECTED_DECK } from './types';
 
 export const setPlayers = (players) => {
     return {
@@ -7,19 +8,26 @@ export const setPlayers = (players) => {
     }
 }
 
-export const setCurrentDeck = (currentDeck) => {
-    const currentCards = werewolfService.getCardsInDeck(currentDeck)
+export const setSelectedDeck = (selectedDeck) => {
+    const selectedDeckCards = werewolfService.getCardsInDeck(selectedDeck)
     .map(c => {
       return {
         key: c.key,
-        visible: werewolfService.isInDeck(c.key, currentDeck),
+        visible: werewolfService.isInDeck(c.key, selectedDeck),
         amount: 1,
       }
     });
 
     return {
-        type: 'SET_CURRENT_DECK',
-        currentDeck,
-        currentCards,
-    }
+        type: SET_SELECTED_DECK,
+        selectedDeck,
+        selectedDeckCards,
+    };
+}
+
+export const getAvailableDecks = () => {
+    return {
+        type: SET_AVAILABLE_DECKS,
+        decks: Object.keys(werewolfService.getDecks()),
+    };
 }

@@ -1,34 +1,8 @@
 import { combineReducers } from 'redux';
-
-const players = (state = 5, action) =>  {
-    switch(action.type) {
-        case 'SET_PLAYERS':
-            return action.players;
-        default:
-            return state;
-    }
-}
-
-const currentDeck = (state = '', action) => {
-    switch(action.type) {
-        case 'SET_CURRENT_DECK':
-            return action.currentDeck;
-        default:
-            return state;
-    }
-}
-
-const currentCards = (state = [], action) => {
-    switch(action.type) {
-        case 'SET_CURRENT_DECK':
-            return action.currentCards;
-        default:
-            return state;
-    }
-}
-
+import gameSetup from './gameSetup';
+import decks from './decks';
 
 export default combineReducers({ 
-    players, 
-    currentDeck
+    gameSetup,
+    decks
 });
