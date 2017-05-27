@@ -9,8 +9,6 @@ import CardCustomizer from '../components/CardCustomizer';
 class Cards extends React.Component {
   constructor() {
     super();
-    this.state = {};
-    this.setVisibility = this.setVisibility.bind(this);
     this.changeCardAmount = this.changeCardAmount.bind(this);
     this.onCardAmountChanged = this.onCardAmountChanged.bind(this);
   }
@@ -28,13 +26,16 @@ class Cards extends React.Component {
   render() {
     const cards = this.props
       .cards
-      .map(card => Object.assign({}, card, { amount: this.props.deck[card.key] || 0 }))
+      .map(card => {
+        const deckCard = this.props.deck.find(c => card.key === c.key) || {};
+        return Object.assign({}, card, { amount: deckCard.amount || 0 })
+      })
       .map(card =>
         <CardCustomizer
           key={card.key}
           cardKey={card.key}
           amount={card.amount}
-          onCardAmountChanged={this.onCardAmountChanged} />
+          onCardAmountChanged={this.props.onCardAmountChanged} />
       );
 
     return (

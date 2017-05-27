@@ -18,7 +18,6 @@ export const setSelectedDeck = (selectedDeck) => {
     .map(c => {
       return {
         key: c.key,
-        visible: werewolfService.isInDeck(c.key, selectedDeck),
         amount: 1,
       }
     });
@@ -44,6 +43,6 @@ export const customizeDeck = () => {
 
 export const onCardAmountChanged = (cardKey, amount) => ({
     type: CHANGE_CARD_AMOUNT,
-    cardKey,
+    card: werewolfService.getCard(cardKey), //TODO: validate non-undefined maybe?
     amount
 });

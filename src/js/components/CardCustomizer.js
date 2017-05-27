@@ -9,9 +9,13 @@ const CardCustomizer = ({
             <label>
                 <input
                     type="checkbox"
-                    onChange={onCardCheckedChanged}
                     checked={amount > 0}
-                    name={cardKey} />
+                    name={cardKey} 
+                    onChange={(ev) => {
+                        const amount = ev.target.checked ? 1 : 0;
+                        onCardAmountChanged(cardKey, amount);
+                    }}
+                    />
                 {cardKey}
             </label>
             <input
@@ -21,11 +25,11 @@ const CardCustomizer = ({
                 min={0}
                 name={cardKey}
                 onChange={(ev) => {
-                    const cardKey = ev.target.name;
-                    const amount = ev.target.value;
+                    const amount = Number.parseInt(ev.target.value, 10);
                     onCardAmountChanged(cardKey, amount);
                 }}
-                disabled={amount > 0} ></input>
+                disabled={amount === 0}
+                ></input>
         </div>
     );
 

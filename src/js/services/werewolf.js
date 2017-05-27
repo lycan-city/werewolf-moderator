@@ -10,6 +10,10 @@ export default new class werewolfService {
         return Object.keys(cards).map(key => {return {key, value: cards[key]}});
     }
 
+    getCard(cardKey) {
+        return this.getCards().find(c => c.key === cardKey);
+    }
+
     getCardsInDeck(deck) {
         const cards = brain.getDeck(deck);
         return Object.keys(cards).map(key => { return {key, value: cards[key]}})

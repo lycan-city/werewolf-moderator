@@ -41,6 +41,6 @@
     "react-router-redux": "^5.0.0-alpha.6",
     "redux": "^3.6.0",
     "redux-logger": "^3.0.6",
-    "werewolf-brain": "^2.0.0-rc.2"
+    "werewolf-brain": "^2.0.0"
   }
 }
