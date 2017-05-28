@@ -1,15 +1,17 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const srcPath = path.join(__dirname, 'src');
-const buildPath = path.join(__dirname, 'docs');
+const buildPath = path.join(__dirname, 'build');
 
 module.exports = {
   context: srcPath,
-  entry: path.join(srcPath, 'js', 'client.js'),
+  entry: {
+    client: path.join(srcPath, 'js', 'client.js'),
+  },
   output: {
       path: buildPath,
-      filename: "bundle.js",
-      sourceMapFilename: "bundle.map.js"
+      filename: "[name].bundle.js",
+      sourceMapFilename: "[name].bundle.map.js",
   },
   devtool: "source-map",
   module: {
