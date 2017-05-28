@@ -15,12 +15,10 @@ export const setPlayers = (players) => {
 
 export const setSelectedDeck = (selectedDeck) => {
     const deck = werewolfService.getCardsInDeck(selectedDeck)
-    .map(c => {
-      return {
-        key: c.key,
-        amount: 1,
-      }
-    });
+        .map(c => ({
+            key: c.key,
+            amount: c.value,
+        }));
 
     return {
         type: SET_SELECTED_DECK,
@@ -30,9 +28,9 @@ export const setSelectedDeck = (selectedDeck) => {
 }
 
 export const preloadDefaultData = () => (dispatch, getState) => {
-    const deckKeys =  Object.keys(werewolfService.getDecks());
-    
-    if(!getState().gameSetup.selectedDeck)
+    const deckKeys = Object.keys(werewolfService.getDecks());
+
+    if (!getState().gameSetup.selectedDeck)
         dispatch(setSelectedDeck(deckKeys[0]));
 
     dispatch({
