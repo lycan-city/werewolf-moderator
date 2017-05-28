@@ -7,6 +7,7 @@ module.exports = {
   context: srcPath,
   entry: {
     client: path.join(srcPath, 'js', 'client.js'),
+    serviceWorker: path.join(srcPath, 'serviceWorker', 'index.js'),
   },
   output: {
       path: buildPath,
