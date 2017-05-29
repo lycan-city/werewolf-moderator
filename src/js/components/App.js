@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, withRouter } from 'react-router'
 
-import * as actionCreators from '../actions';
+import actionCreators from '../actions';
 import '../../css/main.css';
 
 import Home from '../pages/Home';

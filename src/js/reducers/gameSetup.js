@@ -4,7 +4,8 @@ import gameTypes from '../core/gameTypes';
 import { 
     SET_SELECTED_DECK, 
     SET_PLAYERS,
-    CHANGE_CARD_AMOUNT
+    CHANGE_CARD_AMOUNT,
+    SET_GAME_TYPE,
 } from '../actions/types';
 import createReducer from '../lib/createReducer';
 
@@ -38,7 +39,11 @@ const deck = createReducer([], {
     }
 });
 
-const type = createReducer(gameTypes.balanced, {});
+const type = createReducer(gameTypes.balanced, {
+    [SET_GAME_TYPE](state, action) {
+        return action.gameType;
+    }
+});
 
 export default combineReducers({
     players,
