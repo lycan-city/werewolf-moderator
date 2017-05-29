@@ -25,9 +25,6 @@ const deck = createReducer([], {
         return action.deck;
     },
     [CHANGE_CARD_AMOUNT](state, action) {
-        if(!state.some(k => k.key === action.card.key))
-            return [...state, {key: action.card.key, amount: action.amount}];
-        
         if(!action.amount)
             return [...state.filter(c => c.key !== action.card.key)];
         else
