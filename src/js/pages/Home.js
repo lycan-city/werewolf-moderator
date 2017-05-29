@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import Header from '../components/Header';
 import gamesTypes from '../core/gameTypes';
-import * as actionCreators from '../actions';
 
 import CreateGame from '../components/createGame';
 
@@ -46,7 +45,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(actionCreators, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps)(Home);

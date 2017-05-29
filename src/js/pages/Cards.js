@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
-import * as actionCreators from '../actions';
 import Header from '../components/Header';
 import CardCustomizer from '../components/CardCustomizer';
 
@@ -69,7 +67,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(actionCreators, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Cards);
+export default connect(mapStateToProps)(Cards);
