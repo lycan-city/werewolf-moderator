@@ -10,25 +10,27 @@ module.exports = {
     serviceWorker: path.join(srcPath, 'serviceWorker', 'index.js'),
   },
   output: {
-      path: buildPath,
-      filename: "[name].bundle.js",
-      sourceMapFilename: "[name].bundle.map.js",
+    path: buildPath,
+    filename: "[name].bundle.js",
+    sourceMapFilename: "[name].bundle.map.js",
   },
   devtool: "source-map",
   module: {
-      loaders: [
-          {
-            test: /\.jsx?$/,
-            exclude: /(node_modules|bower_components)/,
-            loader: 'babel-loader'
-          },
-          { test: /\.json$/, loader: "json-loader" },
-          { test: /\.css$/, loader: "css-loader" }
-      ]
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: 'babel-loader'
+      },
+      { test: /\.json$/, loader: "json-loader" },
+      { test: /\.css$/, loader: "css-loader" }
+    ]
   },
-  plugins:[
-     new CopyWebpackPlugin([
-       {from: 'index.html'},
-     ])
+  plugins: [
+    new CopyWebpackPlugin([
+      { from: 'index.html' },
+      { from: 'manifest.json' },
+      { from: 'img'},
+    ])
   ]
 };
