@@ -62,6 +62,7 @@ const startGameWithMode = (mode) => () => (dispath, getState) => {
         gameSetup.deck,
         'custom'
     );
+
     dispath(setGameType(mode));
     dispath({
         type: SET_CURRENT_GAME,
