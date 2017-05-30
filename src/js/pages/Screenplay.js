@@ -5,15 +5,15 @@ import Header from '../components/Header';
 import languages from '../core/languages';
 
 class Screenplay extends Component {
- 	componentWillMount() {
-		if (!this.props.game)
-			this.props.goToSetup();
-	}
- 
+  componentWillMount() {
+    if (!this.props.game)
+      this.props.goToSetup();
+  }
+
   render() {
     if (!this.props.game)
-			return null;
-    
+      return null;
+
     const cards = this.props.game.script.map((c, i) => (
       <a href="#" class="list-group-item" key={i}>
         <h4 class="list-group-item-heading"></h4>
