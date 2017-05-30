@@ -42,4 +42,6 @@ export default new class werewolfService {
     getScript(deck, lang = 'en') { //TODO: better defaults
         return brain.getScriptFromDeck(deck, lang);
     }
+
+    mode = brain.getModes;
 }

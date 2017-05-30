@@ -4,7 +4,6 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 import Header from '../components/Header';
-import gamesTypes from '../core/gameTypes';
 
 import CreateGame from '../components/createGame';
 

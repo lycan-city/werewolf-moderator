@@ -9,7 +9,6 @@ import {
     SET_SCRIPT_LANGUAGE,
 } from './types';
 import werewolfService from '../services/werewolf';
-import gameTypes from '../core/gameTypes';
 
 export const setPlayers = (players) => {
     return {
@@ -77,8 +76,8 @@ const startGameWithModeAndRedirect = (mode) => () => (dispatch, getState) => {
     dispatch(push('/game'));
 }
 
-export const startGame = startGameWithModeAndRedirect(gameTypes.balanced)
-export const startChaos = startGameWithModeAndRedirect(gameTypes.chaos)
+export const startGame = startGameWithMode(werewolfService.mode.NORMAL);
+export const startChaos = startGameWithMode(werewolfService.mode.CHAOS);
 
 export const rematch = () => (dispatch, getState) => {
     const { gameSetup } = getState();
