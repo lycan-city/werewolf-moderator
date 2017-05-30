@@ -48,7 +48,7 @@ class Cards extends React.Component {
             </div>
 
             <div class="panel-footer">
-              <button onClick={this.props.goToHome} className="btn btn-default col-md-2 col-xs-12 btn-space"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+              <button onClick={this.props.goBack} className="btn btn-default col-md-2 col-xs-12 btn-space"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
               <button onClick={this.props.startChaos} className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"><i class="fa fa-arrows" aria-hidden="true"></i> Quick Chaos</button>
               <button onClick={this.props.startGame} className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"><i class="fa fa-balance-scale" aria-hidden="true"></i> Quick Balanced</button>
               <div class="clearfix"></div>

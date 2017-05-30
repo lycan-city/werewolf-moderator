@@ -1,4 +1,4 @@
-import { push, replace } from 'react-router-redux'
+import { push, replace, goBack } from 'react-router-redux'
 
 import {
     GOT_TO_SETUP,
@@ -7,3 +7,5 @@ import {
 export const goToSetup = () => replace('/');
 
 export const goToScreenplay = () => push('/screenplay');
+
+export { goBack };
