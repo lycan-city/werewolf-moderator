@@ -33,7 +33,7 @@ class Home extends React.Component {
       onCustomizeDeck={this.props.customizeDeck}
       onStartChaos={this.props.startChaos}
       onStartGame={this.props.startGame}
-    />;
+    />
   }
 }
 
