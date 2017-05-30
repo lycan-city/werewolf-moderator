@@ -68,13 +68,12 @@ const startGameWithMode = (mode, dispatch, getState) => {
         type: SET_CURRENT_GAME,
         game: currentGame,
     });
-        dispatch(push('/game'));
 
 };
 
 const startGameWithModeAndRedirect = (mode) => () => (dispatch, getState) => {
     startGameWithMode(mode, dispatch, getState);
-    // dispatch(push('/game'));
+    dispatch(push('/game'));
 }
 
 export const startGame = startGameWithModeAndRedirect(gameTypes.balanced)

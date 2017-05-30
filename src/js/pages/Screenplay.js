@@ -31,7 +31,7 @@ class Screenplay extends Component {
               </div>
             </div>
             <div class="panel-footer">
-              <button to="/" className="btn btn-default pull-right col-md-6 col-xs-12"><i class="fa fa-repeat" aria-hidden="true"></i> New Game</button>
+              <button onClick={this.props.goToHome} className="btn btn-default pull-right col-md-6 col-xs-12"><i class="fa fa-repeat" aria-hidden="true"></i> New Game</button>
               <button onClick={this.props.goBack} class="btn btn-default pull-left col-md-4 col-xs-12"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
               <div class="clearfix"></div>
             </div>
