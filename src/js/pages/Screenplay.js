@@ -20,8 +20,8 @@ class Screenplay extends Component {
           <div class="panel panel-default ">
             <div class="panel-heading">
               <div class="pull-right">
-                <button onClick={this.changeLanguage} name={languages.spanish} type="button" class="btn btn-default">ES</button>
-                <button onClick={this.changeLanguage} name={languages.english} type="button" class="btn btn-default">EN</button>
+                <button onClick={this.props.translateScript(languages.spanish)} class="btn btn-default">ES</button>
+                <button onClick={this.props.translateScript(languages.english)} class="btn btn-default">EN</button>
               </div>
               <div class="clearfix"></div>
             </div>

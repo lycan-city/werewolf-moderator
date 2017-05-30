@@ -6,6 +6,7 @@ import {
     CHANGE_CARD_AMOUNT,
     SET_CURRENT_GAME,
     SET_GAME_TYPE,
+    SET_SCRIPT_LANGUAGE,
 } from './types';
 import werewolfService from '../services/werewolf';
 import gameTypes from '../core/gameTypes';
@@ -88,3 +89,14 @@ export const setGameType = (gameType) => ({
     type: SET_GAME_TYPE,
     gameType,
 });
+
+export const translateScript = (lang) => (dispatch, getState) => () => {
+    const { game } = getState();
+
+    const script = werewolfService.getScript(game.deck, lang);
+
+    dispatch({
+        type: SET_SCRIPT_LANGUAGE,
+        script,
+    });
+}
