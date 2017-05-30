@@ -9,25 +9,11 @@ import gamesTypes from '../core/gameTypes';
 import CreateGame from '../components/createGame';
 
 class Home extends React.Component {
-  constructor() {
-    super();
-    this.onPlayersChanged = this.onPlayersChanged.bind(this);
-    this.onSelectedDeckChanged = this.onSelectedDeckChanged.bind(this);
-  }
-
-  onPlayersChanged(event) {
-    this.props.setPlayers(parseInt(event.target.value, 10));
-  }
-
-  onSelectedDeckChanged(event) {
-    this.props.setSelectedDeck(event.target.value);
-  }
-
   render() {
     return <CreateGame
       players={this.props.players}
-      onPlayersChanged={this.onPlayersChanged}
-      onSelectedDeckChanged={this.onSelectedDeckChanged}
+      onPlayersChanged={this.props.setPlayers}
+      onSelectedDeckChanged={this.props.setSelectedDeck}
       selectedDeck={this.props.selectedDeck}
       decks={this.props.decks}
       onCustomizeDeck={this.props.customizeDeck}

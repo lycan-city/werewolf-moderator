@@ -19,13 +19,21 @@ export default ({
                         <form class="form-horizontal">
                             <div class="form-group col-md-12">
                                 <label class="control-label" for="players">Players</label>
-                                <input name="players" type="number" class="form-control input-md" placeholder="0" min="0" value={players} onChange={onPlayersChanged} />
+                                <input name="players" type="number" class="form-control input-md" placeholder="0" min="0"
+                                    value={players}
+                                    onChange={event => onPlayersChanged(parseInt(event.target.value, 10))} />
                             </div>
                             <div class="form-group col-md-12">
                                 <label class="control-label" for="deck">Deck</label>
                                 <div class="">
-                                    <select id="selectedDeck" name="selectedDeck" class="form-control" onChange={onSelectedDeckChanged} value={selectedDeck}>
+                                    <select id="selectedDeck"
+                                        name="selectedDeck"
+                                        class="form-control"
+                                        onChange={event => onSelectedDeckChanged(event.target.value)}
+                                        value={selectedDeck}>
+
                                         {decks.map((e, i) => <option value={e} key={i}>{e}</option>)}
+                                        
                                     </select>
                                 </div>
                             </div>
