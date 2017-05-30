@@ -29,7 +29,7 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(actionCreators, dispatch);
