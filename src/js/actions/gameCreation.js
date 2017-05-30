@@ -49,7 +49,7 @@ export const customizeDeck = () => {
     return push('cards');
 };
 
-export const onCardAmountChanged = (cardKey, amount) => ({
+export const changeCardAmount = (cardKey, amount) => ({
     type: CHANGE_CARD_AMOUNT,
     card: werewolfService.getCard(cardKey), //TODO: validate non-undefined maybe?
     amount

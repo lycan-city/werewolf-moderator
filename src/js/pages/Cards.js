@@ -5,22 +5,6 @@ import Header from '../components/Header';
 import CardCustomizer from '../components/CardCustomizer';
 
 class Cards extends React.Component {
-  constructor() {
-    super();
-    this.changeCardAmount = this.changeCardAmount.bind(this);
-    this.onCardAmountChanged = this.onCardAmountChanged.bind(this);
-  }
-
-  changeCardAmount(ev) {
-    const card = ev.target.name;
-    const amount = ev.target.value;
-    this.props.changeAmountValue(card, amount);
-  }
-
-  onCardAmountChanged(cardKey, amount) {
-    this.props.cardAmountChanged(cardKey, amount);
-  }
-
   render() {
     const cards = this.props
       .cards
@@ -33,7 +17,7 @@ class Cards extends React.Component {
           key={card.key}
           cardKey={card.key}
           amount={card.amount}
-          onCardAmountChanged={this.props.onCardAmountChanged} />
+          onCardAmountChanged={this.props.changeCardAmount} />
       );
 
     return (
