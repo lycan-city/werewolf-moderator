@@ -50,7 +50,7 @@ export const customizeDeck = () => {
 
 export const changeCardAmount = (cardKey, amount) => ({
     type: CHANGE_CARD_AMOUNT,
-    card: werewolfService.getCard(cardKey), //TODO: validate non-undefined maybe?
+    card: werewolfService.getCard(cardKey),
     amount
 });
 

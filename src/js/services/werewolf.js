@@ -27,7 +27,7 @@ export default new class werewolfService {
         let options = {};
         options.mode = mode;
 
-        if (deckName === "custom") //TODO: standardize?
+        if (deckName === "custom")
             options.deck = cardsArray.reduce((t, i) => { t[i.key] = i.amount; return t; }, {});
         else
             options.deckName = deckName;
@@ -39,7 +39,7 @@ export default new class werewolfService {
         return Object.assign({}, game, { script });
     }
 
-    getScript(deck, lang = 'en') { //TODO: better defaults
+    getScript(deck, lang = 'en') {
         return brain.getScriptFromDeck(deck, lang);
     }
 
