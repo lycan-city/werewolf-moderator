@@ -4,7 +4,8 @@
   "description": "App to moderate werewolf game.",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "webpack-dev-server --content-base docs --inline --history-api-fallback"
+    "start": "webpack-dev-server --content-base docs --inline --history-api-fallback",
+    "lint": "eslint ."
   },
   "authors": [
     "wistcc <wistcc@gmail.com> http://winnercrespo.com",
@@ -26,6 +27,11 @@
     "babel-preset-stage-0": "^6.22.0",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.27.3",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-react": "^7.0.1",
     "json-loader": "^0.5.4",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
