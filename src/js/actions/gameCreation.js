@@ -54,16 +54,17 @@ export const changeCardAmount = (cardKey, amount) => ({
   amount
 });
 
-const startGameWithMode = mode => () => (dispatch, getState) => {
+const startGameWithMode = mode => (dispatch, getState) => {
   const { gameSetup } = getState();
+  const gameType = mode || gameSetup.type;
   const currentGame = werewolfService.createGame(
     gameSetup.players,
-    mode,
+    gameType,
     gameSetup.deck,
     'custom'
   );
 
-  dispatch(setGameType(mode));
+  dispatch(setGameType(gameType));
   dispatch({
     type: SET_CURRENT_GAME,
     game: currentGame,
@@ -71,13 +72,10 @@ const startGameWithMode = mode => () => (dispatch, getState) => {
   dispatch(push('/game'));
 };
 
-export const startGame = startGameWithMode(werewolfService.mode.NORMAL);
-export const startChaos = startGameWithMode(werewolfService.mode.CHAOS);
+export const startGame = () => startGameWithMode(werewolfService.mode.NORMAL);
+export const startChaos = () => startGameWithMode(werewolfService.mode.CHAOS);
 
-export const rematch = () => (dispatch, getState) => {
-  const { gameSetup } = getState();
-  dispatch(startGameWithMode(gameSetup.type)())
-}
+export const rematch = () => startGameWithMode();
 
 export const setGameType = gameType => ({
   type: SET_GAME_TYPE,
