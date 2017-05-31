@@ -31,7 +31,6 @@ export const setSelectedDeck = (selectedDeck) => {
 
 export const preloadDefaultData = () => (dispatch, getState) => {
   const deckKeys = Object.keys(werewolfService.getDecks());
-
   if (!getState().gameSetup.selectedDeck) {
     dispatch(setSelectedDeck(deckKeys[0]));
   }
@@ -45,44 +44,44 @@ export const preloadDefaultData = () => (dispatch, getState) => {
 
 export const customizeDeck = () => push('cards');
 
+export const changeCardAmount = (cardKey, amount) => ({
+  type: CHANGE_CARD_AMOUNT,
+  card: werewolfService.getCard(cardKey),
+  amount,
+});
+
 export const setGameType = gameType => ({
   type: SET_GAME_TYPE,
   gameType,
 });
 
-export const changeCardAmount = (cardKey, amount) => ({
-  type: CHANGE_CARD_AMOUNT,
-  card: werewolfService.getCard(cardKey), // TODO: validate non-undefined maybe?
-  amount,
-});
-
-const startGameWithMode = (mode, dispatch, getState) => {
+const startGameWithMode = mode => (dispatch, getState) => {
   const { gameSetup } = getState();
+  const gameType = mode || gameSetup.type;
   const currentGame = werewolfService.createGame(
     gameSetup.players,
-    mode,
+    gameType,
     gameSetup.deck,
     'custom',
   );
 
-  dispatch(setGameType(mode));
+  dispatch(setGameType(gameType));
+
   dispatch({
     type: SET_CURRENT_GAME,
     game: currentGame,
   });
+
+  dispatch(push('/game'));
 };
 
-export const startGame = startGameWithMode(werewolfService.mode.NORMAL);
-export const startChaos = startGameWithMode(werewolfService.mode.CHAOS);
+export const startGame = () => startGameWithMode(werewolfService.mode.NORMAL);
+export const startChaos = () => startGameWithMode(werewolfService.mode.CHAOS);
 
-export const rematch = () => (dispatch, getState) => {
-  const { gameSetup } = getState();
-  return startGameWithMode(gameSetup.type, dispatch, getState);
-};
+export const rematch = () => startGameWithMode();
 
-export const translateScript = lang => (dispatch, getState) => () => {
+export const translateScript = lang => (dispatch, getState) => {
   const { game } = getState();
-
   const script = werewolfService.getScript(game.deck, lang);
 
   dispatch({
