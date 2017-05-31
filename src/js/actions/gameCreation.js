@@ -9,7 +9,6 @@ import {
   SET_SELECTED_DECK,
 } from './types';
 import werewolfService from '../services/werewolf';
-import gameTypes from '../core/gameTypes';
 
 export const setPlayers = players => ({
   type: 'SET_PLAYERS',
@@ -73,13 +72,8 @@ const startGameWithMode = (mode, dispatch, getState) => {
   });
 };
 
-const startGameWithModeAndRedirect = mode => () => (dispatch, getState) => {
-  startGameWithMode(mode, dispatch, getState);
-  dispatch(push('/game'));
-};
-
-export const startGame = startGameWithModeAndRedirect(gameTypes.balanced);
-export const startChaos = startGameWithModeAndRedirect(gameTypes.chaos);
+export const startGame = startGameWithMode(werewolfService.mode.NORMAL);
+export const startChaos = startGameWithMode(werewolfService.mode.CHAOS);
 
 export const rematch = () => (dispatch, getState) => {
   const { gameSetup } = getState();

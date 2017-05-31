@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
+
+import werewolfService from '../services/werewolf';
 import {
-  CHANGE_CARD_AMOUNT,
-  SET_GAME_TYPE,
-  SET_PLAYERS,
-  SET_SELECTED_DECK,
+    SET_SELECTED_DECK,
+    SET_PLAYERS,
+    CHANGE_CARD_AMOUNT,
+    SET_GAME_TYPE,
 } from '../actions/types';
-import gameTypes from '../core/gameTypes';
 import createReducer from '../lib/createReducer';
 
 const players = createReducer(5, {
@@ -39,7 +40,7 @@ const deck = createReducer([], {
   },
 });
 
-const type = createReducer(gameTypes.balanced, {
+const type = createReducer(werewolfService.mode.NORMAL, {
   [SET_GAME_TYPE](state, action) {
     return action.gameType;
   },

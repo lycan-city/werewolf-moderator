@@ -43,7 +43,10 @@ export default class werewolfService {
     return Object.assign({}, game, { script });
   }
 
+
   static getScript(deck, lang = 'en') { // TODO: better defaults
     return brain.getScriptFromDeck(deck, lang);
   }
+
+  static mode = brain.getModes;
 }
