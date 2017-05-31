@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Route, withRouter } from 'react-router'
+import { Route, withRouter } from 'react-router';
 
 import actionCreators from '../actions';
 import '../../css/main.css';
@@ -29,9 +29,9 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = () => ({});
 
-const mapDispatchToProps = (dispatch) =>
+const mapDispatchToProps = dispatch =>
   bindActionCreators(actionCreators, dispatch);
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

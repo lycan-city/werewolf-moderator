@@ -5,7 +5,7 @@ export default class Header extends React.Component {
   static propTypes = {
     name: string.isRequired
   }
-  
+
   render() {
     return (
       <div class="title">

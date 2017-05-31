@@ -33,12 +33,11 @@
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.0.1",
     "json-loader": "^0.5.4",
-    "react": "^15.4.1",
-    "react-dom": "^15.4.1",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0"
   },
   "dependencies": {
+    "react-dom": "^15.4.1",
     "history": "^4.6.1",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",

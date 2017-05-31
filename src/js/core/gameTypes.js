@@ -1,4 +1,4 @@
 export default {
-    balanced: 'balanced',
-    chaos: 'chaos'
-}
+  balanced: 'balanced',
+  chaos: 'chaos'
+};

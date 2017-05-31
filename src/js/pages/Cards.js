@@ -6,18 +6,17 @@ import CardCustomizer from '../components/CardCustomizer';
 
 class Cards extends React.Component {
   render() {
-    const cards = this.props
-      .cards
-      .map(card => {
-        const deckCard = this.props.deck.find(c => card.key === c.key) || {};
-        return Object.assign({}, card, { amount: deckCard.amount || 0 })
-      })
+    const cards = this.props.cards.map((card) => {
+      const deckCard = this.props.deck.find(c => card.key === c.key) || {};
+      return Object.assign({}, card, { amount: deckCard.amount || 0 });
+    })
       .map(card =>
-        <CardCustomizer
+        (<CardCustomizer
           key={card.key}
           cardKey={card.key}
           amount={card.amount}
-          onCardAmountChanged={this.props.changeCardAmount} />
+          onCardAmountChanged={this.props.changeCardAmount}
+        />)
       );
 
     return (
@@ -32,10 +31,25 @@ class Cards extends React.Component {
             </div>
 
             <div class="panel-footer">
-              <button onClick={this.props.goBack} className="btn btn-default col-md-2 col-xs-12 btn-space"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
-              <button onClick={this.props.startChaos} className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"><i class="fa fa-arrows" aria-hidden="true"></i> Quick Chaos</button>
-              <button onClick={this.props.startGame} className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"><i class="fa fa-balance-scale" aria-hidden="true"></i> Quick Balanced</button>
-              <div class="clearfix"></div>
+              <button
+                onClick={this.props.goBack}
+                className="btn btn-default col-md-2 col-xs-12 btn-space"
+              >
+                <i class="fa fa-arrow-left" aria-hidden="true" />
+              </button>
+              <button
+                onClick={this.props.startChaos}
+                className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"
+              >
+                <i class="fa fa-arrows" aria-hidden="true" /> Quick Chaos
+                </button>
+              <button
+                onClick={this.props.startGame}
+                className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"
+              >
+                <i class="fa fa-balance-scale" aria-hidden="true" /> Quick Balanced
+              </button>
+              <div class="clearfix" />
             </div>
           </div>
         </div>
@@ -44,11 +58,9 @@ class Cards extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    deck: state.gameSetup.deck,
-    cards: state.defaultData.cards,
-  }
-}
+const mapStateToProps = state => ({
+  deck: state.gameSetup.deck,
+  cards: state.defaultData.cards,
+});
 
 export default connect(mapStateToProps)(Cards);
