@@ -1,17 +1,20 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import { routerMiddleware } from 'react-router-redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import logger from 'redux-logger';
+import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
-
 import reducer from './reducers';
+
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-undef */
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+/* eslint-enable */
 
 export default function configureStore({ history }) {
   const historyMiddleware = routerMiddleware(history);
 
   return createStore(reducer,
-        compose(
+        composeEnhancers(
             applyMiddleware(thunk, historyMiddleware, logger),
-            window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
         ),
     );
 }

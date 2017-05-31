@@ -6,11 +6,11 @@ const buildPath = path.join(__dirname, 'docs');
 
 module.exports = {
   context: srcPath,
-  entry: path.join(srcPath, 'js', 'client.js'),
+  entry: path.join(srcPath, 'js', 'client.jsx'),
   output: {
     path: buildPath,
     filename: 'bundle.js',
-    sourceMapFilename: 'bundle.map.js'
+    sourceMapFilename: 'bundle.map.js',
   },
   devtool: 'source-map',
   module: {
@@ -18,15 +18,18 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
       },
-          { test: /\.json$/, loader: 'json-loader' },
-          { test: /\.css$/, loader: 'css-loader' }
-    ]
+      { test: /\.json$/, loader: 'json-loader' },
+      { test: /\.css$/, loader: 'css-loader' },
+    ],
   },
   plugins: [
     new CopyWebpackPlugin([
-       { from: 'index.html' },
-    ])
-  ]
+      { from: 'index.html' },
+    ]),
+  ],
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
 };

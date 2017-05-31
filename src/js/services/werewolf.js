@@ -1,37 +1,40 @@
 import brain from 'werewolf-brain';
 
-export default new class werewolfService {
-  getDecks() {
+export default class werewolfService {
+  static getDecks() {
     return brain.getDecks();
   }
 
-  getCards() {
+  static getCards() {
     const cards = brain.getCards();
     return Object.keys(cards).map(key => ({ key, value: cards[key] }));
   }
 
-  getCard(cardKey) {
+  static getCard(cardKey) {
     return this.getCards().find(c => c.key === cardKey);
   }
 
-  getCardsInDeck(deck) {
+  static getCardsInDeck(deck) {
     const cards = brain.getDeck(deck);
     return Object.keys(cards).map(key => ({ key, value: cards[key] }));
   }
 
-  isInDeck(card, deck) {
+  static isInDeck(card, deck) {
     return !!brain.getDeck(deck)[card];
   }
 
-  createGame(players, mode, cardsArray, deckName) {
+  static createGame(players, mode, cardsArray, deckName) {
     const options = {};
     options.mode = mode;
 
     if (deckName === 'custom') {
-      options.deck = cardsArray.reduce((t, i) => {
-        t[i.key] = i.amount; return t;
-      }, {});
-    } else { options.deckName = deckName; }
+      options.deck = cardsArray.reduce((deck, card) => ({
+        ...deck,
+        [card.key]: card.amount,
+      }), {});
+    } else {
+      options.deckName = deckName;
+    }
 
     const game = brain.getGame(players, options);
 
@@ -40,7 +43,7 @@ export default new class werewolfService {
     return Object.assign({}, game, { script });
   }
 
-  getScript(deck, lang = 'en') { // TODO: better defaults
+  static getScript(deck, lang = 'en') { // TODO: better defaults
     return brain.getScriptFromDeck(deck, lang);
   }
-}();
+}

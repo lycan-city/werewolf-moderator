@@ -1,24 +1,23 @@
 import { combineReducers } from 'redux';
-
-import gameTypes from '../core/gameTypes';
 import {
-  SET_SELECTED_DECK,
-  SET_PLAYERS,
   CHANGE_CARD_AMOUNT,
   SET_GAME_TYPE,
+  SET_PLAYERS,
+  SET_SELECTED_DECK,
 } from '../actions/types';
+import gameTypes from '../core/gameTypes';
 import createReducer from '../lib/createReducer';
 
 const players = createReducer(5, {
   [SET_PLAYERS](state, action) {
     return action.players;
-  }
+  },
 });
 
 const selectedDeck = createReducer('', {
   [SET_SELECTED_DECK](state, action) {
     return action.selectedDeck;
-  }
+  },
 });
 
 const deck = createReducer([], {
@@ -37,13 +36,13 @@ const deck = createReducer([], {
         amount: action.amount,
       },
     ];
-  }
+  },
 });
 
 const type = createReducer(gameTypes.balanced, {
   [SET_GAME_TYPE](state, action) {
     return action.gameType;
-  }
+  },
 });
 
 export default combineReducers({

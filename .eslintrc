@@ -1,7 +1,6 @@
 {
   "extends": "airbnb",
   "rules": {
-    "comma-dangle": 0,
     "no-plusplus": 0,
     "react/no-unknown-property": 0,
     "react/prop-types": [

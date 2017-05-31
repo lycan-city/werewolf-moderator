@@ -1,12 +1,12 @@
 import { push } from 'react-router-redux';
 
 import {
-  PRELOAD_DEFAULT_DATA,
-  SET_SELECTED_DECK,
   CHANGE_CARD_AMOUNT,
+  PRELOAD_DEFAULT_DATA,
   SET_CURRENT_GAME,
   SET_GAME_TYPE,
   SET_SCRIPT_LANGUAGE,
+  SET_SELECTED_DECK,
 } from './types';
 import werewolfService from '../services/werewolf';
 import gameTypes from '../core/gameTypes';
@@ -54,7 +54,7 @@ export const setGameType = gameType => ({
 export const changeCardAmount = (cardKey, amount) => ({
   type: CHANGE_CARD_AMOUNT,
   card: werewolfService.getCard(cardKey), // TODO: validate non-undefined maybe?
-  amount
+  amount,
 });
 
 const startGameWithMode = (mode, dispatch, getState) => {
@@ -63,7 +63,7 @@ const startGameWithMode = (mode, dispatch, getState) => {
     gameSetup.players,
     mode,
     gameSetup.deck,
-    'custom'
+    'custom',
   );
 
   dispatch(setGameType(mode));

@@ -1,8 +1,8 @@
-import createReducer from '../lib/createReducer';
 import {
     SET_CURRENT_GAME,
     SET_SCRIPT_LANGUAGE,
 } from '../actions/types';
+import createReducer from '../lib/createReducer';
 
 export default createReducer(null, {
   [SET_CURRENT_GAME](state, action) {
@@ -13,5 +13,5 @@ export default createReducer(null, {
       ...state,
       script: action.script,
     };
-  }
+  },
 });
