@@ -17,9 +17,8 @@ class Screenplay extends Component {
     }
 
     const cards = this.props.game.script.map(c => (
-      <a href="#" class="list-group-item" key={c.key}>
-        <h4 class="list-group-item-heading" />
-        <p class="list-group-item-text">{c}</p>
+      <a class="list-group-item" key={c.key}>
+        {c}
       </a>
     ));
 

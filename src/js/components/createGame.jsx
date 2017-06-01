@@ -18,7 +18,7 @@ export default ({
         <div class="panel-body">
           <form class="form-horizontal">
             <div class="form-group col-md-12">
-              <label class="control-label" for="players">Players</label>
+              <label class="control-label" htmlFor="players">Players</label>
               <input
                 name="players"
                 type="number"
@@ -30,7 +30,7 @@ export default ({
               />
             </div>
             <div class="form-group col-md-12">
-              <label class="control-label" for="deck">Deck</label>
+              <label class="control-label" htmlFor="deck">Deck</label>
               <div class="">
                 <select
                   id="selectedDeck"
@@ -40,7 +40,7 @@ export default ({
                   value={selectedDeck}
                 >
 
-                  {decks.map((e, i) => <option value={e} key={i}>{e}</option>)}
+                  {decks.map(e => <option value={e} key={e}>{e}</option>)}
 
                 </select>
               </div>

@@ -16,7 +16,7 @@ class Cards extends React.Component {
           cardKey={card.key}
           amount={card.amount}
           onCardAmountChanged={this.props.changeCardAmount}
-        />)
+        />),
       );
 
     return (
