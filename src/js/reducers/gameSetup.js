@@ -10,22 +10,16 @@ import {
 import createReducer from '../lib/createReducer';
 
 const players = createReducer(5, {
-  [SET_PLAYERS](state, action) {
-    return action.players;
-  },
+  [SET_PLAYERS]: (state, action) => action.players,
 });
 
 const selectedDeck = createReducer('', {
-  [SET_SELECTED_DECK](state, action) {
-    return action.selectedDeck;
-  },
+  [SET_SELECTED_DECK]: (state, action) => action.selectedDeck,
 });
 
 const deck = createReducer([], {
-  [SET_SELECTED_DECK](state, action) {
-    return action.deck;
-  },
-  [CHANGE_CARD_AMOUNT](state, action) {
+  [SET_SELECTED_DECK]: (state, action) => action.deck,
+  [CHANGE_CARD_AMOUNT]: (state, action) => {
     if (!action.amount) {
       return [...state.filter(c => c.key !== action.card.key)];
     }
@@ -41,9 +35,7 @@ const deck = createReducer([], {
 });
 
 const type = createReducer(werewolfService.mode.NORMAL, {
-  [SET_GAME_TYPE](state, action) {
-    return action.gameType;
-  },
+  [SET_GAME_TYPE]: (state, action) => action.gameType,
 });
 
 export default combineReducers({
