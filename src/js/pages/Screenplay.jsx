@@ -30,11 +30,11 @@ class Screenplay extends Component {
             <div class="panel-heading">
               <div class="pull-right">
                 <button
-                  onClick={this.props.translateScript(languages.spanish)}
+                  onClick={() => this.props.translateScript(languages.spanish)}
                   class="btn btn-default"
                 >ES</button>
                 <button
-                  onClick={this.props.translateScript(languages.english)}
+                  onClick={() => this.props.translateScript(languages.english)}
                   class="btn btn-default"
                 >EN</button>
               </div>
