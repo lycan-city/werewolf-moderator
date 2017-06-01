@@ -1,43 +1,24 @@
 import React from 'react';
-import { Link, browserHistory } from 'react-router';
-import gamesTypes from '../core/gameTypes';
+import { connect } from 'react-redux';
 
 import Header from '../components/Header';
+import CardCustomizer from '../components/CardCustomizer';
 
-export default class Cards extends React.Component {
-  constructor() {
-    super();
-    this.setVisibility = this.setVisibility.bind(this);
-    this.changeCardAmount = this.changeCardAmount.bind(this);
-  }
-  
-  setVisibility(ev) {
-    const card = ev.target.name;
-    const checked = ev.target.checked;
-    this.props.setCardVisibility(card, checked);
-  }
-
-  changeCardAmount(ev) {
-    const card = ev.target.name;
-    const amount = ev.target.value;
-    this.props.changeAmountValue(card, amount);
-  }
-
+class Cards extends React.Component {
   render() {
     const cards = this.props
-      .getAllCards()
-      .map(c => {
-        /* Initial card state*/
-        c.amount = 0;
-        c.visible = false;
-        return this.props.getCardsInGame().find(k => k.key === c.key) || c;
+      .cards
+      .map(card => {
+        const deckCard = this.props.deck.find(c => card.key === c.key) || {};
+        return Object.assign({}, card, { amount: deckCard.amount || 0 })
       })
-      .map(c => (
-        <div class="col-md-6 col-xs-12" key={c.key}>
-            <label><input type="checkbox" onChange={this.setVisibility} checked={c.visible} name={c.key} /> {c.key}</label>
-            <input class='pull-right card-quantity' type={"number"} value={c.amount} min={0} name={c.key} onChange={this.changeCardAmount} disabled={!c.visible} ></input>
-        </div>
-      ));
+      .map(card =>
+        <CardCustomizer
+          key={card.key}
+          cardKey={card.key}
+          amount={card.amount}
+          onCardAmountChanged={this.props.changeCardAmount} />
+      );
 
     return (
       <div>
@@ -49,11 +30,11 @@ export default class Cards extends React.Component {
                 {cards}
               </form>
             </div>
-            
+
             <div class="panel-footer">
-              <button onClick={browserHistory.goBack} className="btn btn-default col-md-2 col-xs-12 btn-space"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>              
-              <button onClick={this.props.startGame.bind(this, gamesTypes.chaos)} className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"><i class="fa fa-arrows" aria-hidden="true"></i> Quick Chaos</button>
-              <button onClick={this.props.startGame.bind(this, gamesTypes.balanced)} className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"><i class="fa fa-balance-scale" aria-hidden="true"></i> Quick Balanced</button>
+              <button onClick={this.props.goBack} className="btn btn-default col-md-2 col-xs-12 btn-space"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+              <button onClick={this.props.startChaos} className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"><i class="fa fa-arrows" aria-hidden="true"></i> Quick Chaos</button>
+              <button onClick={this.props.startGame} className="btn btn-default col-md-4 col-md-offset-1 col-xs-12 btn-space"><i class="fa fa-balance-scale" aria-hidden="true"></i> Quick Balanced</button>
               <div class="clearfix"></div>
             </div>
           </div>
@@ -62,3 +43,12 @@ export default class Cards extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    deck: state.gameSetup.deck,
+    cards: state.defaultData.cards,
+  }
+}
+
+export default connect(mapStateToProps)(Cards);

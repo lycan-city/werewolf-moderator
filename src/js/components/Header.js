@@ -1,9 +1,11 @@
 import React from 'react';
+import { string } from 'prop-types';
 
 export default class Header extends React.Component {
   static propTypes = {
-    name: React.PropTypes.string.isRequired
+    name: string.isRequired
   }
+  
   render() {
     return (
       <div class="title">
