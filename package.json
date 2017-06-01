@@ -5,7 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "start": "webpack-dev-server --content-base docs --inline --history-api-fallback",
-    "lint": "eslint .; return 0"
+    "lint": "eslint ."
   },
   "authors": [
     "wistcc <wistcc@gmail.com> http://winnercrespo.com",
