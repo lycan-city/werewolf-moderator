@@ -1,21 +1,19 @@
-import { push } from 'react-router-redux'
+import { push } from 'react-router-redux';
 
 import {
-  PRELOAD_DEFAULT_DATA,
-  SET_SELECTED_DECK,
   CHANGE_CARD_AMOUNT,
+  PRELOAD_DEFAULT_DATA,
   SET_CURRENT_GAME,
   SET_GAME_TYPE,
   SET_SCRIPT_LANGUAGE,
+  SET_SELECTED_DECK,
 } from './types';
 import werewolfService from '../services/werewolf';
 
-export const setPlayers = (players) => {
-  return {
-    type: 'SET_PLAYERS',
-    players,
-  }
-}
+export const setPlayers = players => ({
+  type: 'SET_PLAYERS',
+  players,
+});
 
 export const setSelectedDeck = (selectedDeck) => {
   const deck = werewolfService.getCardsInDeck(selectedDeck)
@@ -29,13 +27,13 @@ export const setSelectedDeck = (selectedDeck) => {
     selectedDeck,
     deck,
   };
-}
+};
 
 export const preloadDefaultData = () => (dispatch, getState) => {
   const deckKeys = Object.keys(werewolfService.getDecks());
-
-  if (!getState().gameSetup.selectedDeck)
+  if (!getState().gameSetup.selectedDeck) {
     dispatch(setSelectedDeck(deckKeys[0]));
+  }
 
   dispatch({
     type: PRELOAD_DEFAULT_DATA,
@@ -44,14 +42,17 @@ export const preloadDefaultData = () => (dispatch, getState) => {
   });
 };
 
-export const customizeDeck = () => {
-  return push('cards');
-};
+export const customizeDeck = () => push('cards');
 
 export const changeCardAmount = (cardKey, amount) => ({
   type: CHANGE_CARD_AMOUNT,
   card: werewolfService.getCard(cardKey),
-  amount
+  amount,
+});
+
+export const setGameType = gameType => ({
+  type: SET_GAME_TYPE,
+  gameType,
 });
 
 const startGameWithMode = mode => (dispatch, getState) => {
@@ -61,38 +62,33 @@ const startGameWithMode = mode => (dispatch, getState) => {
     gameSetup.players,
     gameType,
     gameSetup.deck,
-    'custom'
+    'custom',
   );
 
   dispatch(setGameType(gameType));
+
   dispatch({
     type: SET_CURRENT_GAME,
     game: currentGame,
   });
 };
 
-const startGameWithModeAndRedirect = mode => (dispatch, getState) => {
+const startGameWithModeAndRedirect = mode => (dispatch) => {
   dispatch(startGameWithMode(mode));
   dispatch(push('/game'));
-}
+};
 
 export const startGame = () => startGameWithModeAndRedirect(werewolfService.mode.NORMAL);
 export const startChaos = () => startGameWithModeAndRedirect(werewolfService.mode.CHAOS);
 
 export const rematch = () => startGameWithMode();
 
-export const setGameType = gameType => ({
-  type: SET_GAME_TYPE,
-  gameType,
-});
-
-export const translateScript = (lang) => (dispatch, getState) => () => {
+export const translateScript = lang => (dispatch, getState) => {
   const { game } = getState();
-
   const script = werewolfService.getScript(game.deck, lang);
 
   dispatch({
     type: SET_SCRIPT_LANGUAGE,
     script,
   });
-}
+};

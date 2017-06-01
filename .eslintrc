@@ -1,0 +1,21 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "no-plusplus": 0,
+    "react/no-unknown-property": 0,
+    "react/prop-types": [
+      2,
+      {
+        "skipUndeclared": true
+      }
+    ]
+  },
+  "parser": "babel-eslint",
+  "plugins": [
+    "react"
+  ],
+  "globals": {
+    "describe": true,
+    "it": true
+  }
+}

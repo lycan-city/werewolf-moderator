@@ -1,47 +1,52 @@
 import brain from 'werewolf-brain';
 
-export default new class werewolfService {
-    getDecks() {
-        return brain.getDecks();
+export default class werewolfService {
+  static getDecks() {
+    return brain.getDecks();
+  }
+
+  static getCards() {
+    const cards = brain.getCards();
+    return Object.keys(cards).map(key => ({ key, value: cards[key] }));
+  }
+
+  static getCard(cardKey) {
+    return this.getCards().find(c => c.key === cardKey);
+  }
+
+  static getCardsInDeck(deck) {
+    const cards = brain.getDeck(deck);
+    return Object.keys(cards).map(key => ({ key, value: cards[key] }));
+  }
+
+  static isInDeck(card, deck) {
+    return !!brain.getDeck(deck)[card];
+  }
+
+  static createGame(players, mode, cardsArray, deckName) {
+    const options = {};
+    options.mode = mode;
+
+    if (deckName === 'custom') {
+      options.deck = cardsArray.reduce((deck, card) => ({
+        ...deck,
+        [card.key]: card.amount,
+      }), {});
+    } else {
+      options.deckName = deckName;
     }
 
-    getCards() {
-        const cards = brain.getCards();
-        return Object.keys(cards).map(key => { return { key, value: cards[key] } });
-    }
+    const game = brain.getGame(players, options);
 
-    getCard(cardKey) {
-        return this.getCards().find(c => c.key === cardKey);
-    }
+    const script = brain.getScriptFromDeck(game.deck);
 
-    getCardsInDeck(deck) {
-        const cards = brain.getDeck(deck);
-        return Object.keys(cards).map(key => { return { key, value: cards[key] } })
-    }
+    return Object.assign({}, game, { script });
+  }
 
-    isInDeck(card, deck) {
-        return !!brain.getDeck(deck)[card];
-    }
 
-    createGame(players, mode, cardsArray, deckName) {
-        let options = {};
-        options.mode = mode;
+  static getScript(deck, lang = 'en') { // TODO: better defaults
+    return brain.getScriptFromDeck(deck, lang);
+  }
 
-        if (deckName === "custom")
-            options.deck = cardsArray.reduce((t, i) => { t[i.key] = i.amount; return t; }, {});
-        else
-            options.deckName = deckName;
-
-        const game = brain.getGame(players, options);
-
-        const script = brain.getScriptFromDeck(game.deck);
-
-        return Object.assign({}, game, { script });
-    }
-
-    getScript(deck, lang = 'en') {
-        return brain.getScriptFromDeck(deck, lang);
-    }
-
-    mode = brain.getModes;
+  static mode = brain.getModes;
 }

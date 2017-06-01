@@ -1,4 +1,4 @@
-import { push, replace, goBack } from 'react-router-redux'
+import { push, replace, goBack } from 'react-router-redux';
 
 export const goToSetup = () => replace('/');
 
