@@ -3,7 +3,7 @@ import React from 'react';
 const CardCustomizer = ({
   cardKey,
   amount,
-  onCardAmountChanged
+  onCardAmountChanged,
 }) => (
   <div class="col-md-6 col-xs-12" key={cardKey}>
     <label htmlFor={cardKey}>
