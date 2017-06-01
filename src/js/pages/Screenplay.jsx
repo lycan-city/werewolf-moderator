@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Header from '../components/Header';
-import languages from '../core/languages';
+import werewolfService from '../services/werewolf';
+
 
 class Screenplay extends Component {
   componentWillMount() {
@@ -30,11 +31,11 @@ class Screenplay extends Component {
             <div class="panel-heading">
               <div class="pull-right">
                 <button
-                  onClick={() => this.props.translateScript(languages.spanish)}
+                  onClick={() => this.props.translateScript(werewolfService.language.es)}
                   class="btn btn-default"
                 >ES</button>
                 <button
-                  onClick={() => this.props.translateScript(languages.english)}
+                  onClick={() => this.props.translateScript(werewolfService.language.en)}
                   class="btn btn-default"
                 >EN</button>
               </div>
