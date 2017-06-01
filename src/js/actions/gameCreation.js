@@ -69,11 +69,15 @@ const startGameWithMode = mode => (dispatch, getState) => {
     type: SET_CURRENT_GAME,
     game: currentGame,
   });
-  dispatch(push('/game'));
 };
 
-export const startGame = () => startGameWithMode(werewolfService.mode.NORMAL);
-export const startChaos = () => startGameWithMode(werewolfService.mode.CHAOS);
+const startGameWithModeAndRedirect = mode => (dispatch, getState) => {
+  dispatch(startGameWithMode(mode));
+  dispatch(push('/game'));
+}
+
+export const startGame = () => startGameWithModeAndRedirect(werewolfService.mode.NORMAL);
+export const startChaos = () => startGameWithModeAndRedirect(werewolfService.mode.CHAOS);
 
 export const rematch = () => startGameWithMode();
 
