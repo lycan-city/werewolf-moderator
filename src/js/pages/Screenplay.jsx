@@ -10,17 +10,21 @@ class Screenplay extends Component {
       this.props.goToSetup();
     }
   }
-
+  t(key) {
+    return this.props.translations[this.props.language].calls[key];
+  }
   render() {
     if (!this.props.game) {
       return null;
     }
 
-    const cards = this.props.game.script.map(c => (
-      <a class="list-group-item" key={c.key}>
-        {c}
-      </a>
-    ));
+    const cards = this.props.game.screenplay
+      .filter(call => call.level === 'game')
+      .map(call => (
+        <a class="list-group-item" key={call.key}>
+          {this.t(call.key)}
+        </a>
+      ));
 
     return (
       <div>
@@ -28,15 +32,12 @@ class Screenplay extends Component {
         <div class="col-md-4 col-md-offset-4">
           <div class="panel panel-default ">
             <div class="panel-heading">
+              <div class="pull-left" >
+                
+              </div>
               <div class="pull-right">
-                <button
-                  onClick={() => this.props.translateScript(languages.spanish)}
-                  class="btn btn-default"
-                >ES</button>
-                <button
-                  onClick={() => this.props.translateScript(languages.english)}
-                  class="btn btn-default"
-                >EN</button>
+                <button onClick={() => this.props.setLanguage(languages.spanish)} class="btn btn-default" >ES</button>
+                <button onClick={() => this.props.setLanguage(languages.english)} class="btn btn-default" >EN</button>
               </div>
               <div class="clearfix" />
             </div>
@@ -46,15 +47,9 @@ class Screenplay extends Component {
               </div>
             </div>
             <div class="panel-footer">
-              <button
-                onClick={this.props.goToHome}
-                className="btn btn-default pull-right col-md-6 col-xs-12"
-              >
+              <button onClick={this.props.goToHome} className="btn btn-default pull-right col-md-6 col-xs-12" >
                 <i class="fa fa-repeat" aria-hidden="true" /> New Game</button>
-              <button
-                onClick={this.props.goBack}
-                class="btn btn-default pull-left col-md-4 col-xs-12"
-              >
+              <button onClick={this.props.goBack} class="btn btn-default pull-left col-md-4 col-xs-12" >
                 <i class="fa fa-arrow-left" aria-hidden="true" /> Back</button>
               <div class="clearfix" />
             </div>
@@ -65,6 +60,10 @@ class Screenplay extends Component {
   }
 }
 
-const mapStateToProps = ({ game }) => ({ game });
+const mapStateToProps = ({ game, defaultData, language }) => ({
+  game,
+  translations: defaultData.translations,
+  language,
+});
 
 export default connect(mapStateToProps)(Screenplay);

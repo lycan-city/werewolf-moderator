@@ -39,6 +39,7 @@ export const preloadDefaultData = () => (dispatch, getState) => {
     type: PRELOAD_DEFAULT_DATA,
     decks: deckKeys,
     cards: werewolfService.getCards(),
+    translations: werewolfService.getTranslations(),
   });
 };
 

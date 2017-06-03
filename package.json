@@ -48,6 +48,6 @@
     "redux": "^3.6.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
-    "werewolf-brain": "^2.0.0"
+    "werewolf-brain": "lycan-city/werewolf-brain#feature/32/screenplay"
   }
 }
