@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { filterLevels } from 'werewolf-brain';
 
 import Header from '../components/Header';
 import languages from '../core/languages';
@@ -10,16 +11,25 @@ class Screenplay extends Component {
       this.props.goToSetup();
     }
   }
+
   t(key) {
     return this.props.translations[this.props.language].calls[key];
   }
+
+  filterButton(level) {
+    const active = (this.props.filterLevel === level) ? 'active' : '';
+    return (<button key={level} class={`btn btn-default ${active}`} onClick={() => this.props.setFilterLevel(level)}>{
+      Object.keys(filterLevels).find(k => filterLevels[k] === level)
+    }</button>);
+  }
+
   render() {
     if (!this.props.game) {
       return null;
     }
 
     const cards = this.props.game.screenplay
-      .filter(call => call.level === 'game')
+      .filter(call => call.level <= this.props.filterLevel)
       .map(call => (
         <a class="list-group-item" key={call.key}>
           {this.t(call.key)}
@@ -33,7 +43,9 @@ class Screenplay extends Component {
           <div class="panel panel-default ">
             <div class="panel-heading">
               <div class="pull-left" >
-                
+                <div class="btn-group" >
+                  {Object.keys(filterLevels).map(level => this.filterButton(filterLevels[level]))}
+                </div>
               </div>
               <div class="pull-right">
                 <button onClick={() => this.props.setLanguage(languages.spanish)} class="btn btn-default" >ES</button>
@@ -60,10 +72,11 @@ class Screenplay extends Component {
   }
 }
 
-const mapStateToProps = ({ game, defaultData, language }) => ({
+const mapStateToProps = ({ game, defaultData, language, preferences }) => ({
   game,
   translations: defaultData.translations,
   language,
+  filterLevel: preferences.filterLevel,
 });
 
 export default connect(mapStateToProps)(Screenplay);
