@@ -5,31 +5,15 @@ const CardCustomizer = ({
   amount,
   onCardAmountChanged,
 }) => (
-  <div class="col-md-6 col-xs-12" key={cardKey}>
-    <label htmlFor={cardKey}>
-      <input
-        type="checkbox"
-        checked={amount > 0}
-        name={cardKey}
-        onChange={(ev) => {
-          const a = ev.target.checked ? 1 : 0;
-          onCardAmountChanged(cardKey, a);
-        }}
-      />
-      {cardKey}
-    </label>
-    <input
-      class="pull-right card-quantity"
-      type={'number'}
-      value={amount}
-      min={0}
+  <div class="col-md-12 col-xs-12" key={cardKey}>
+    <i class="fa fa-minus-circle" aria-hidden="true" />
+    <span
+      class="card-quantity"
       name={cardKey}
-      onChange={(ev) => {
-        const a = Number.parseInt(ev.target.value, 10);
-        onCardAmountChanged(cardKey, a);
-      }}
       disabled={amount === 0}
-    />
+    >{cardKey} <span class="badge">{amount}</span>
+    </span>
+    <i class="fa fa-plus-circle" aria-hidden="true" />
   </div>
   );
 

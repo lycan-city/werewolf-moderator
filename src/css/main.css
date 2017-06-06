@@ -5,3 +5,7 @@
 .card-quantity {
     width: 2em;
 }
+
+.striketrough {
+    text-decoration: line-through;
+}
