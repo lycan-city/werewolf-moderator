@@ -43,14 +43,11 @@ export default class werewolfService {
     return Object.assign({}, game, { script });
   }
 
-  static getScript(deck, lang = language.en) {
+  static getScript(deck, lang = werewolfService.language.en) {
     return brain.getScriptFromDeck(deck, lang);
   }
 
-  static language = brain.getLanguages().reduce((a, v) => {
-        a[v] = v;
-        return a;
-  }, {});
+  static language = brain.getLanguages().reduce((a, v) => ({ ...a, [v]: v }), {});
 
   static mode = brain.getModes;
 }

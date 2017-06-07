@@ -4,4 +4,7 @@ import * as navigationActions from './navigation';
 export const gameCreation = gameCreationActions;
 export const navigation = navigationActions;
 
-export default Object.assign({}, gameCreationActions, navigationActions);
+export default {
+  ...gameCreationActions,
+  ...navigationActions,
+};
