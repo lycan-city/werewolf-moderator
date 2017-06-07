@@ -6,6 +6,11 @@ import Header from '../components/Header';
 import languages from '../core/languages';
 
 class Screenplay extends Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+
   componentWillMount() {
     if (!this.props.game) {
       this.props.goToSetup();
@@ -30,6 +35,7 @@ class Screenplay extends Component {
 
     const cards = this.props.game.screenplay
       .filter(call => call.level <= this.props.filterLevel)
+      .filter(call => !call.firstNight || !this.state.hideFirstNight)
       .map(call => (
         <a class="list-group-item" key={call.key}>
           {this.t(call.key)}
@@ -42,12 +48,18 @@ class Screenplay extends Component {
         <div class="col-md-4 col-md-offset-4">
           <div class="panel panel-default ">
             <div class="panel-heading">
-              <div class="pull-left" >
+              <div class="pull-left col-md-4" >
                 <div class="btn-group" >
                   {Object.keys(filterLevels).map(level => this.filterButton(filterLevels[level]))}
                 </div>
               </div>
-              <div class="pull-right">
+              <div class="col-md-4">
+                <button
+                  class={`btn btn-default ${this.state.hideFirstNight ? 'active' : ''}`}
+                  onClick={() => this.setState({ hideFirstNight: !this.state.hideFirstNight })}
+                >Hide first night</button>
+              </div>
+              <div class="pull-right col-md-4">
                 <button onClick={() => this.props.setLanguage(languages.spanish)} class="btn btn-default" >ES</button>
                 <button onClick={() => this.props.setLanguage(languages.english)} class="btn btn-default" >EN</button>
               </div>
