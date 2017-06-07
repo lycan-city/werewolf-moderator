@@ -1,34 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
+import withPreexecute from '../components/withPreexecute';
 import withLayout from '../components/withLayout';
 import Card from '../components/Card';
 
-class Game extends Component {
-  componentWillMount() {
-    if (!this.props.game) {
-      this.props.goToSetup();
-    }
-  }
-
-  render() {
-    if (!this.props.game) {
-      return null;
-    }
-
-    return (
-      <div>
-        {this.props.game.deck.map(c => <Card key={c.role} {...c} />)}
-      </div>
-    );
-  }
-}
+const Game = ({ game }) => (
+  <div>
+    {game.deck.map(c => <Card key={c.role} {...c} />)}
+  </div>
+);
 
 const mapStateToProps = state => ({
   game: state.game,
 });
 
-const connected = connect(mapStateToProps)(Game);
+const preexecuteBound = withPreexecute(Game, ({ game }) => !game, ({ goToSetup }) => goToSetup());
+
+const connected = connect(mapStateToProps)(preexecuteBound);
 
 const Footer = ({ goToSetup, rematch, goToScreenplay }) => (
   <div >
@@ -39,4 +28,6 @@ const Footer = ({ goToSetup, rematch, goToScreenplay }) => (
   </div>
 );
 
-export default withLayout(connected, { Footer }, 'Game');
+const comp = withLayout(connected, { Footer }, 'Game');
+
+export default comp;
