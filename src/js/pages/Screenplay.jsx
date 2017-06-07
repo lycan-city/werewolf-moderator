@@ -37,7 +37,10 @@ class Screenplay extends Component {
       .filter(call => call.level <= this.props.filterLevel)
       .filter(call => !call.firstNight || !this.state.hideFirstNight)
       .map(call => (
-        <a class="list-group-item" key={call.key}>
+        <a
+          class={`list-group-item ${(call.level === filterLevels.game) ? '' : 'list-group-item-warning'}`}
+          key={call.key}
+        >
           {this.t(call.key)}
         </a>
       ));
