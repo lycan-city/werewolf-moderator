@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { filterLevels } from 'werewolf-brain';
 
 import Header from '../components/Header';
-import languages from '../core/languages';
+import werewolfService from '../services/werewolf';
+
 
 class Screenplay extends Component {
   constructor() {
