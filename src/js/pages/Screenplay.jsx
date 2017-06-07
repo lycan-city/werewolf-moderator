@@ -24,9 +24,10 @@ class Screenplay extends Component {
 
   filterButton(level) {
     const active = (this.props.filterLevel === level) ? 'active' : '';
-    return (<button key={level} class={`btn btn-default ${active}`} onClick={() => this.props.setFilterLevel(level)}>{
+    return (<button key={level} class={`btn btn-default ${active}`} onClick={() => this.props.setFilterLevel(level)}> {
       Object.keys(filterLevels).find(k => filterLevels[k] === level)
-    }</button>);
+    }
+    </button>);
   }
 
   render() {
@@ -49,23 +50,30 @@ class Screenplay extends Component {
     return (
       <div>
         <Header name="Screenplay" />
-        <div class="col-md-4 col-md-offset-4">
+        <div class="col-md-6 col-md-offset-3">
           <div class="panel panel-default ">
             <div class="panel-heading">
-              <div class="pull-left col-md-4" >
-                <div class="btn-group" >
-                  {Object.keys(filterLevels).map(level => this.filterButton(filterLevels[level]))}
+              <div class="row">
+                <div class="col-md-4" >
+                  <div class="btn-group" >
+                    {Object.keys(filterLevels).map(level => this.filterButton(filterLevels[level]))}
+                  </div>
                 </div>
-              </div>
-              <div class="col-md-4">
-                <button
-                  class={`btn btn-default ${this.state.hideFirstNight ? 'active' : ''}`}
-                  onClick={() => this.setState({ hideFirstNight: !this.state.hideFirstNight })}
-                >Hide first night</button>
-              </div>
-              <div class="pull-right col-md-4">
-                <button onClick={() => this.props.setLanguage(languages.spanish)} class="btn btn-default" >ES</button>
-                <button onClick={() => this.props.setLanguage(languages.english)} class="btn btn-default" >EN</button>
+                <div class="col-md-4">
+                  <button
+                    class={`center-block btn btn-default ${this.state.hideFirstNight ? 'active' : ''}`}
+                    onClick={() => this.setState({ hideFirstNight: !this.state.hideFirstNight })}
+                  >Hide first night</button>
+                </div>
+                <div class="col-md-4">
+                  <div class="btn-group pull-right" >
+                    {Object.keys(werewolfService.language).map(language => (
+                      <button key={language} onClick={() => this.props.setLanguage(language)} class={`btn btn-default ${language === this.props.language ? 'active' : ''}`}>
+                        {language.toUpperCase()}
+                      </button>
+                  ))}
+                  </div>
+                </div>
               </div>
               <div class="clearfix" />
             </div>
