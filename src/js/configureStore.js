@@ -2,8 +2,12 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import logger from 'redux-logger';
 import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
+import reduxLocalStorage from 'redux-localstorage';
 import reducer from './reducers';
 
+const persistState = reduxLocalStorage(undefined, {
+  key: 'werewolfStorage',
+});
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-undef */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -15,6 +19,7 @@ export default function configureStore({ history }) {
   return createStore(reducer,
         composeEnhancers(
             applyMiddleware(thunk, historyMiddleware, logger),
+            persistState,
         ),
     );
 }
