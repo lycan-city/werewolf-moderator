@@ -49,6 +49,6 @@
     "redux-localstorage": "^0.4.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
-    "werewolf-brain": "^2.0.0"
+    "werewolf-brain": "^2.1.0-beta"
   }
 }
