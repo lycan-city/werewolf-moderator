@@ -11,7 +11,12 @@ const cards = createReducer([], {
   [PRELOAD_DEFAULT_DATA]: (state, action) => action.cards,
 });
 
+const translations = createReducer({}, {
+  [PRELOAD_DEFAULT_DATA]: (state, action) => action.translations,
+});
+
 export default combineReducers({
   decks,
   cards,
+  translations,
 });

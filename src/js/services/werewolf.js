@@ -36,21 +36,20 @@ export default class werewolfService {
       options.deckName = deckName;
     }
 
-    const game = brain.getGame(players, options);
-
-    const script = brain.getScriptFromDeck(game.deck);
-
-    return Object.assign({}, game, { script });
+    return brain.getGame(players, options);
   }
 
-  static getScript(deck, lang = language.en) {
+  static getTranslations() {
+    return brain.translations;
+  }
+
+  static getScript(deck, lang = werewolfService.language.en) {
     return brain.getScriptFromDeck(deck, lang);
   }
 
-  static language = brain.getLanguages().reduce((a, v) => {
-        a[v] = v;
-        return a;
-  }, {});
+  static language = brain.getLanguages().reduce((a, v) =>
+    Object.assign(a, { [v]: v }),
+    {});
 
   static mode = brain.getModes;
 }
