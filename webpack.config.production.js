@@ -15,7 +15,7 @@ module.exports = {
   },
   output: {
     path: buildPath,
-    filename: '[name]-[hash].min.js',
+    filename: '[name]-[chunkhash].min.js',
   },
   module: {
     loaders: [
@@ -52,8 +52,8 @@ module.exports = {
     new CleanWebpackPlugin(['dist']),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new HtmlWebpackPlugin({
-      template: 'index.tpl.html',
-      inject: 'body',
+      template: 'index.ejs',
+      inject: false,
       filename: 'index.html',
       minify: {
         removeComments: true,
