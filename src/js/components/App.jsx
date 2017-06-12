@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Route, withRouter } from 'react-router';
+import {
+  Route,
+  withRouter,
+  Redirect,
+} from 'react-router';
 
 import actionCreators from '../actions';
 import '../../css/main.css';
@@ -20,7 +24,8 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Route exact path="/" render={(r => <Home {...r} {...this.props} />)} />
+        <Redirect from="/" to="/home" />
+        <Route exact path="/home" render={(r => <Home {...r} {...this.props} />)} />
         <Route path="/cards" render={(r => <Cards {...r} {...this.props} />)} />
         <Route path="/game" render={(r => <Game {...r} {...this.props} />)} />
         <Route path="/screenplay" render={(r => <Screenplay {...r} {...this.props} />)} />

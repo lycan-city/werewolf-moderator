@@ -7,7 +7,7 @@ import Card from '../components/Card';
 class Game extends Component {
   componentWillMount() {
     if (!this.props.game) {
-      this.props.goToSetup();
+      this.props.goToHome();
     }
   }
 
@@ -25,7 +25,7 @@ class Game extends Component {
               {this.props.game.deck.map(c => <Card key={c.role} {...c} />)}
             </div>
             <div class="panel-footer">
-              <button onClick={this.props.goToSetup} className="btn btn-default col-md-2 col-xs-12"><i class="fa fa-arrow-left" aria-hidden="true" /></button>
+              <button onClick={this.props.goToHome} className="btn btn-default col-md-2 col-xs-12"><i class="fa fa-arrow-left" aria-hidden="true" /></button>
               <button onClick={this.props.rematch} className="btn btn-primary col-md-4 col-xs-12 col-md-offset-1"><i class="fa fa-refresh" aria-hidden="true" /> Rematch</button>
               <button onClick={this.props.goToScreenplay} className="btn btn-success col-md-4 col-xs-12 col-md-offset-1"><i class="fa fa-book" aria-hidden="true" /> Screenplay</button>
               <div class="clearfix" />

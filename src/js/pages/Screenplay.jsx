@@ -14,7 +14,7 @@ class Screenplay extends Component {
 
   componentWillMount() {
     if (!this.props.game) {
-      this.props.goToSetup();
+      this.props.goToHome();
     }
   }
 

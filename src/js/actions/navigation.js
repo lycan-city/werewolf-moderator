@@ -1,8 +1,6 @@
-import { push, replace, goBack } from 'react-router-redux';
+import { push, goBack } from 'react-router-redux';
 
-export const goToSetup = () => replace('/');
-
-export const goToHome = () => push('/');
+export const goToHome = () => push('/home');
 
 export const goToScreenplay = () => push('/screenplay');
 

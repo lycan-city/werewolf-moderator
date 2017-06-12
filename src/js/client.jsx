@@ -8,12 +8,14 @@ import App from './components/App';
 
 import configureStore from './configureStore';
 
-const history = createHistory();
+const history = createHistory({
+  basename: '/werewolf-moderator-web',
+});
 const store = configureStore({ history });
 
 render(
   <Provider store={store}>
-    <ConnectedRouter history={history}>
+    <ConnectedRouter history={history} >
       <App />
     </ConnectedRouter>
   </Provider>, document.getElementById('app'));
