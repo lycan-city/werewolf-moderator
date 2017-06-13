@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const embedFileSize = 50000;
 const srcPath = path.join(__dirname, 'src');
@@ -15,7 +16,7 @@ module.exports = {
   },
   output: {
     path: buildPath,
-    filename: '[name]-[chunkhash].min.js',
+    filename: '[name]-[hash].min.js',
   },
   module: {
     loaders: [
@@ -51,6 +52,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.ExtendedAPIPlugin(),
     new HtmlWebpackPlugin({
       template: 'index.ejs',
       inject: false,
@@ -78,6 +80,10 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       __DEV__: JSON.stringify(false),
     }),
+    new CopyWebpackPlugin([
+      { from: 'manifest.json' },
+      { from: 'img' },
+    ]),
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
