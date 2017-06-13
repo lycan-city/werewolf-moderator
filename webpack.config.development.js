@@ -1,6 +1,7 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const embedFileSize = 50000;
 
@@ -14,16 +15,16 @@ module.exports = {
     serviceWorker: path.join(srcPath, 'serviceWorker', 'index.js'),
   },
   output: {
-    path: path.join(__dirname, '/dist/'),
+    path: path.join(__dirname, 'dist'),
     filename: '[name].js',
     publicPath: '/',
   },
   devtool: 'source-map',
   module: {
     loaders: [
-    { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
-    { test: /\.json$/, loader: 'json-loader' },
-    { test: /\.css$/, loader: 'css-loader' },
+      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
+      { test: /\.json$/, loader: 'json-loader' },
+      { test: /\.css$/, loader: 'css-loader' },
       {
         test: /\.svg/,
         loader: `url?limit=${embedFileSize}&mimetype=image/svg+xml`,
@@ -53,10 +54,19 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
       __DEV__: JSON.stringify(process.env.NODE_ENV),
+      __webpack_hash__: null,
     }),
     new CopyWebpackPlugin([
-    { from: 'index.html' },
+      { from: 'manifest.json' },
+      { from: 'img' },
     ]),
+    new HtmlWebpackPlugin({
+      template: 'index.ejs',
+      inject: true,
+      filename: 'index.html',
+      hash: false,
+      excludeChunks: ['serviceWorker', 'hotMiddleware'],
+    }),
   ],
   resolve: {
     extensions: ['.js', '.jsx', '.css'],

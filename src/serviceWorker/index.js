@@ -1,3 +1,4 @@
+import serviceWorkerUri from './serviceWorkerUri';
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
@@ -7,7 +8,7 @@ self.addEventListener('install', (e) => {
       '/launcher-icon-1x.png',
       '/launcher-icon-2x.png',
       '/launcher-icon-4x.png',
-      `/client-${__webpack_hash__}.min.js`,
+      serviceWorkerUri,
       'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
       'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
       'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',

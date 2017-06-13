@@ -55,7 +55,7 @@ module.exports = {
     new webpack.ExtendedAPIPlugin(),
     new HtmlWebpackPlugin({
       template: 'index.ejs',
-      inject: false,
+      inject: true,
       filename: 'index.html',
       minify: {
         removeComments: true,
@@ -69,6 +69,7 @@ module.exports = {
         minifyCSS: true,
         minifyURLs: true,
       },
+      excludeChunks: ['serviceWorker'],
     }),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
