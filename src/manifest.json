@@ -16,10 +16,21 @@
       "src": "launcher-icon-4x.png",
       "type": "image/png",
       "sizes": "192x192"
+    },
+    {
+      "src": "launcher-icon-8x.png",
+      "type": "image/png",
+      "sizes": "384x384"
+    },
+    {
+      "src": "launcher-icon-16x.png",
+      "type": "image/png",
+      "sizes": "768x768"
     }
   ],
   "start_url": "/?launcher=true",
   "display": "standalone",
   "orientation": "portrait",
-  "theme_color": "#000000"
+  "theme_color": "#000000",
+  "background_color": "#bc9507"
 }
