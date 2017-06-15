@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const embedFileSize = 50000;
 const srcPath = path.join(__dirname, 'src');
@@ -11,6 +12,7 @@ module.exports = {
   context: srcPath,
   entry: {
     client: path.join(srcPath, 'js', 'client.jsx'),
+    serviceWorker: path.join(srcPath, 'serviceWorker', 'index.js'),
   },
   output: {
     path: buildPath,
@@ -50,9 +52,10 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.ExtendedAPIPlugin(),
     new HtmlWebpackPlugin({
-      template: 'index.tpl.html',
-      inject: 'body',
+      template: 'index.ejs',
+      inject: true,
       filename: 'index.html',
       minify: {
         removeComments: true,
@@ -66,6 +69,7 @@ module.exports = {
         minifyCSS: true,
         minifyURLs: true,
       },
+      excludeChunks: ['serviceWorker'],
     }),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
@@ -77,6 +81,10 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       __DEV__: JSON.stringify(false),
     }),
+    new CopyWebpackPlugin([
+      { from: 'manifest.json' },
+      { from: 'img' },
+    ]),
   ],
   resolve: {
     extensions: ['.js', '.jsx'],

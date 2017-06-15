@@ -25,6 +25,7 @@
   ],
   "globals": {
     "describe": true,
-    "it": true
+    "it": true,
+    "__webpack_hash__": true
   }
 }

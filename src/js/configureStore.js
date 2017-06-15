@@ -1,5 +1,4 @@
 import { applyMiddleware, compose, createStore } from 'redux';
-import logger from 'redux-logger';
 import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
 import reduxLocalStorage from 'redux-localstorage';
@@ -18,7 +17,7 @@ export default function configureStore({ history }) {
 
   return createStore(reducer,
         composeEnhancers(
-            applyMiddleware(thunk, historyMiddleware, logger),
+            applyMiddleware(thunk, historyMiddleware),
             persistState,
         ),
     );
