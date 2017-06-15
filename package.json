@@ -4,9 +4,9 @@
   "description": "App to moderate werewolf game.",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "NODE_ENV='development' node server.development",
-    "build": "NODE_ENV='production' webpack --config webpack.config.production.js --progress --profile --colors",
-    "now-start": "NODE_ENV='production' node server.production.js",
+    "start": "cross-env NODE_ENV='development' node server.development",
+    "build": "cross-env NODE_ENV='production' webpack --config webpack.config.production.js --progress --profile --colors",
+    "now-start": "cross-env NODE_ENV='production' node server.production.js",
     "lint": "eslint --ext .js --ext .jsx ."
   },
   "authors": [
@@ -30,6 +30,7 @@
     "babel-preset-stage-0": "^6.22.0",
     "clean-webpack-plugin": "^0.1.16",
     "copy-webpack-plugin": "^4.0.1",
+    "cross-env": "^5.0.1",
     "css-loader": "^0.27.3",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
