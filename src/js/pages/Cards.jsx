@@ -9,13 +9,19 @@ class Cards extends React.Component {
   render() {
     const cards = this.props.cards.map((card) => {
       const deckCard = this.props.deck.find(c => card.key === c.key) || {};
-      return Object.assign({}, card, { amount: deckCard.amount || 0 });
+      return Object.assign(
+        {},
+        card,
+        { amount: deckCard.amount || 0 },
+        { role: werewolfService.getCardRole(card.key, this.props.language) },
+      );
     })
+      .sort((a, b) => a.role.localeCompare(b.role))
       .map(card =>
         (<CardCustomizer
           key={card.key}
           cardKey={card.key}
-          cardRole={werewolfService.getCardRole(card.key, this.props.language)}
+          cardRole={card.role}
           amount={card.amount}
           onCardAmountChanged={this.props.changeCardAmount}
         />),
