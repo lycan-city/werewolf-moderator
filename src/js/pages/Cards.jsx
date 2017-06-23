@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Header from '../components/Header';
 import CardCustomizer from '../components/CardCustomizer';
+import werewolfService from '../services/werewolf';
 
 class Cards extends React.Component {
   render() {
@@ -14,6 +15,7 @@ class Cards extends React.Component {
         (<CardCustomizer
           key={card.key}
           cardKey={card.key}
+          cardRole={werewolfService.getCardRole(card.key, this.props.language)}
           amount={card.amount}
           onCardAmountChanged={this.props.changeCardAmount}
         />),
@@ -61,6 +63,7 @@ class Cards extends React.Component {
 const mapStateToProps = state => ({
   deck: state.gameSetup.deck,
   cards: state.defaultData.cards,
+  language: state.language,
 });
 
 export default connect(mapStateToProps)(Cards);

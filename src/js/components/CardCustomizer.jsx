@@ -2,6 +2,7 @@ import React from 'react';
 
 const CardCustomizer = ({
   cardKey,
+  cardRole,
   amount,
   onCardAmountChanged,
 }) => (
@@ -16,7 +17,7 @@ const CardCustomizer = ({
           onCardAmountChanged(cardKey, a);
         }}
       />
-      {cardKey}
+      {cardRole}
     </label>
     <input
       class="pull-right card-quantity"

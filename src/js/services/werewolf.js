@@ -43,6 +43,10 @@ export default class werewolfService {
     return brain.translations;
   }
 
+  static getCardRole(key, language = 'en') {
+    return brain.translations[language].roles[key];
+  }
+
   static getScript(deck, lang = werewolfService.language.en) {
     return brain.getScriptFromDeck(deck, lang);
   }
