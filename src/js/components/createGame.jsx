@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
+import werewolfService from '../services/werewolf';
 
 export default ({
   players,
@@ -12,11 +13,26 @@ export default ({
   onStartChaos,
   onStartGame,
   game,
+  setLanguage,
+  currentLanguage,
 }) => (
   <div>
     <Header name="Home" />
     <div class="col-md-6 col-md-offset-3">
       <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-4 pull-right">
+              <div class="pull-right" >
+                {Object.keys(werewolfService.language).map(language => (
+                  <button key={language} onClick={() => setLanguage(language)} class={`btn btn-default ${language === currentLanguage ? 'active' : ''}`}>
+                    {language.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="panel-body">
           <form class="form-horizontal">
             <div class="form-group col-md-12">

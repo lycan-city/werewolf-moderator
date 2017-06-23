@@ -13,6 +13,8 @@ const Home = ({
   startChaos,
   startGame,
   game,
+  setLanguage,
+  currentLanguage,
 }) => (<CreateGame
   players={players}
   onPlayersChanged={setPlayers}
@@ -24,6 +26,8 @@ const Home = ({
   onStartChaos={startChaos}
   onStartGame={startGame}
   game={game}
+  setLanguage={setLanguage}
+  currentLanguage={currentLanguage}
 />);
 
 const mapStateToProps = state => ({
@@ -31,6 +35,7 @@ const mapStateToProps = state => ({
   selectedDeck: state.gameSetup.selectedDeck,
   decks: state.defaultData.decks,
   game: state.game,
+  currentLanguage: state.language,
 });
 
 export default connect(mapStateToProps)(Home);
