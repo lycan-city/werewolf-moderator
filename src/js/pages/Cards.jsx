@@ -32,10 +32,8 @@ class Cards extends React.Component {
         <Header name="Cards" />
         <div class="col-md-6 col-md-offset-3">
           <div class="panel panel-default">
-            <div class="panel-body">
-              <form class="form-horizontal">
-                {cards}
-              </form>
+            <div class="panel-body" >
+              {cards}
             </div>
 
             <div class="panel-footer">
