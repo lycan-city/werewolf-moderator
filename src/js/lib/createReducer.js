@@ -1,9 +1,7 @@
-export default function createReducer(initialState, handlers, catchAll) {
+export default function createReducer(initialState, handlers) {
   return function reducer(state = initialState, action) {
     if (handlers[action.type]) {
       return handlers[action.type](state, action);
-    } else if (catchAll) {
-      return catchAll(state, action);
     }
     return state;
   };

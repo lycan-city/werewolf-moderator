@@ -3,17 +3,25 @@ import { connect } from 'react-redux';
 
 import Header from '../components/Header';
 import CardCustomizer from '../components/CardCustomizer';
+import werewolfService from '../services/werewolf';
 
 class Cards extends React.Component {
   render() {
     const cards = this.props.cards.map((card) => {
       const deckCard = this.props.deck.find(c => card.key === c.key) || {};
-      return Object.assign({}, card, { amount: deckCard.amount || 0 });
+      return Object.assign(
+        {},
+        card,
+        { amount: deckCard.amount || 0 },
+        { role: werewolfService.getCardRole(card.key, this.props.language) },
+      );
     })
+      .sort((a, b) => a.role.localeCompare(b.role))
       .map(card =>
         (<CardCustomizer
           key={card.key}
           cardKey={card.key}
+          cardRole={card.role}
           amount={card.amount}
           onCardAmountChanged={this.props.changeCardAmount}
         />),
@@ -24,10 +32,8 @@ class Cards extends React.Component {
         <Header name="Cards" />
         <div class="col-md-6 col-md-offset-3">
           <div class="panel panel-default">
-            <div class="panel-body">
-              <form class="form-horizontal">
-                {cards}
-              </form>
+            <div class="panel-body" >
+              {cards}
             </div>
 
             <div class="panel-footer">
@@ -61,6 +67,7 @@ class Cards extends React.Component {
 const mapStateToProps = state => ({
   deck: state.gameSetup.deck,
   cards: state.defaultData.cards,
+  language: state.language,
 });
 
 export default connect(mapStateToProps)(Cards);

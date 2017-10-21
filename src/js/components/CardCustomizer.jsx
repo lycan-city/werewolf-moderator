@@ -2,34 +2,55 @@ import React from 'react';
 
 const CardCustomizer = ({
   cardKey,
+  cardRole,
   amount,
   onCardAmountChanged,
 }) => (
-  <div class="col-md-6 col-xs-12" key={cardKey}>
-    <label htmlFor={cardKey}>
+  <div style={{ paddingBottom: '.5em' }}>
+    <div class="input-group">
+      <div class="input-group-btn">
+        <button
+          type="button"
+          class="btn btn-default"
+          style={{ width: '12em' }}
+          onClick={() => {
+            if (amount > 0) { onCardAmountChanged(cardKey, 0); }
+          }}
+        > {cardRole} </button>
+      </div>
       <input
-        type="checkbox"
-        checked={amount > 0}
+        class="form-control"
+        disabled={amount === 0}
+        type={'number'}
+        min={0}
+        value={amount}
         name={cardKey}
         onChange={(ev) => {
-          const a = ev.target.checked ? 1 : 0;
+          const a = Number.parseInt(ev.target.value, 10);
           onCardAmountChanged(cardKey, a);
         }}
       />
-      {cardKey}
-    </label>
-    <input
-      class="pull-right card-quantity"
-      type={'number'}
-      value={amount}
-      min={0}
-      name={cardKey}
-      onChange={(ev) => {
-        const a = Number.parseInt(ev.target.value, 10);
-        onCardAmountChanged(cardKey, a);
-      }}
-      disabled={amount === 0}
-    />
+      <div class="input-group-btn">
+        <button
+          type="button"
+          class="btn btn-default"
+          onClick={() => {
+            if (amount > 0) { onCardAmountChanged(cardKey, amount - 1); }
+          }}
+        >
+          <span class="glyphicon glyphicon-minus" />
+        </button>
+        <button
+          type="button"
+          class="btn btn-default"
+          onClick={() => {
+            onCardAmountChanged(cardKey, amount + 1);
+          }}
+        >
+          <span class="glyphicon glyphicon-plus" />
+        </button>
+      </div>
+    </div>
   </div>
   );
 
